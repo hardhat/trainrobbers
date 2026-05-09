@@ -13,9 +13,24 @@ export default class TrainCar extends Actor {
     }
 
     create() {
-        this.ground = this.scene.add.rectangle(this.x, this.y, 1000, 10, 0x0000ff, 0);
-        this.scene.physics.add.existing(this.ground, true);
-        this.scene.platforms.add(this.ground);
+        this.createCollisionPlatforms();
     }
+
+    createCollisionPlatforms() {
+        const floorWidth = 180 * 3;
+        const floorHeight = 1;
+        const roofWidth = 144 * 3;
+        const roofheight = 1;
+
+        this.createCollisionRectangle(this.x, this.y + 20, floorWidth, floorHeight);
+        this.createCollisionRectangle(this.x, this.y, roofWidth, roofheight);
+    }
+
+    createCollisionRectangle(x, y, width, height) {
+        const rect = this.scene.add.rectangle(x, y, width, height, 0x0000ff, 0);
+        this.scene.physics.add.existing(rect, true);
+        this.scene.platforms.add(rect);
+    }
+
 
 };

@@ -108,7 +108,7 @@ export default class Level extends Phaser.Scene {
 
         this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
         this.firstClassSprite.setScale(3);
-        this.thirdClassSprite = this.add.image(540, 320, 'passengercar').setOrigin(0, 0);
+        this.thirdClassSprite = this.add.image(549, 320, 'passengercar').setOrigin(0, 0);
         this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
@@ -121,28 +121,28 @@ export default class Level extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
 
-        var x = 200;
-        var y = 400;
+        var x = 0;
+        var y = 0;
         var health = 30;
 
-        this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: x, y: y, health: health });
+        this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: 0, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
         this.hud = new Hud({ scene: this, player: this.player, npc: this.npc });
 
-        if (this.npc.alive) {
+        /*if (this.npc.alive) {
             this.createAnim('candy');
             this.npcSprite = this.add.sprite(600, 400);
             this.npcSprite.setScale(4);
             this.npcSprite.play('candyidle');
-        }
+        }*/
 
         this.createSounds();
         this.traincar.create();
         this.player.create();
         this.hud.create();
-        this.npc.create();
+        //this.npc.create();
     }
 
     createSounds() {

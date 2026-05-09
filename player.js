@@ -14,7 +14,7 @@ export default class Player extends Actor {
     }
 
     create() {
-        this.sprite.setGravityY(100);
+        this.sprite.setGravityY(75);
         this.damage = 0;
         this.nextSfx = 0;
         this.scene.physics.add.collider(this.sprite, this.scene.platforms);
@@ -65,7 +65,7 @@ export default class Player extends Actor {
         console.log('jump');
         this.sprite.play('charjump', true);
         this.sprite.flipX = false;
-        this.sprite.body.setVelocityY(-150);
+        this.sprite.body.setVelocityY(-180);
     }
 
     duck() {
