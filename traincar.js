@@ -13,7 +13,9 @@ export default class TrainCar extends Actor {
     }
 
     create() {
-        
+        this.ground = this.scene.add.rectangle(this.x, this.y, 1000, 10, 0x0000ff, 0);
+        this.scene.physics.add.existing(this.ground, true);
+        this.scene.platforms.add(this.ground);
     }
 
 };

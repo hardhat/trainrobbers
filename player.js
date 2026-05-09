@@ -17,57 +17,10 @@ export default class Player extends Actor {
         this.sprite.setGravityY(100);
         this.damage = 0;
         this.nextSfx = 0;
+        this.scene.physics.add.collider(this.sprite, this.scene.platforms);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-        // this.scene.input.keyboard.on('keydown-UP', this.doUp, this);
-        //this.scene.input.keyboard.on('keydown-DOWN', this.doDown, this);
-        //this.scene.input.keyboard.on('keydown-LEFT', this.doLeft, this);
-        //this.scene.input.keyboard.on('keydown-RIGHT', this.doRight, this);
-        // this.scene.input.keyboard.on('keydown-SPACE', this.doSpace, this);
-        //this.scene.input.keyboard.on('keydown-W', this.doUp, this);
-        //this.scene.input.keyboard.on('keydown-S', this.doDown, this);
-        //this.scene.input.keyboard.on('keydown-A', this.doLeft, this);
-        //this.scene.input.keyboard.on('keydown-D', this.doRight, this);
-        // this.enemy = this.scene.npc;
         this.isMoving = false;
 
-    }
-
-    doUp(event) {
-        //this.scene.showSyllable('do', this.comboString.length);
-        //this.climb();
-        //this.die();
-        this.jump();
-        this.scene.syllable1.play();
-    }
-
-    doRight(event) {
-        //this.scene.showSyllable('wah', this.comboString.length);
-        this.walkRight();
-
-        this.scene.syllable2.play();
-    }
-
-    doDown(event) {
-        //this.scene.showSyllable('uhuh', this.comboString.length);
-        this.duck();
-        this.scene.syllable3.play();
-    }
-
-    doLeft(event) {
-        //this.scene.showSyllable('katta', this.comboString.length);
-        this.walkLeft();
-        this.scene.syllable4.play();
-    }
-
-    doSpace(event) {
-        this.shoot();
-    }
-
-    dealDamage(amount) {
-        console.log('hit');
-        this.damage = amount;
-        this.enemy.health -= this.damage;
-        console.log(this.scene.npc.health);
     }
 
     walkLeft() {

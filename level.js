@@ -116,14 +116,16 @@ export default class Level extends Phaser.Scene {
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.setScale(3);
-        this.physics.add.collider(this.playerSprite, this.firstClassSprite);
         this.playerSprite.play('charidle');
         this.playerSprite.flipX = false;
 
+        this.platforms = this.physics.add.staticGroup();
 
         var x = 200;
         var y = 400;
         var health = 30;
+
+        this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: x, y: y, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
@@ -137,6 +139,7 @@ export default class Level extends Phaser.Scene {
         }
 
         this.createSounds();
+        this.traincar.create();
         this.player.create();
         this.hud.create();
         this.npc.create();
