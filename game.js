@@ -5,8 +5,8 @@ import Level from './level.js'
 
 const config = {
 	type: Phaser.AUTO,
-	width: 800,
-	height: 600,
+	width: 768,
+	height: 576,
 	physics: {
 		default: 'arcade',
 		arcade: {
