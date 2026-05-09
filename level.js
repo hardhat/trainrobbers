@@ -115,7 +115,7 @@ export default class Level extends Phaser.Scene {
         this.playerSprite = this.physics.add.sprite(200, 400);
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
-        this.playerSprite.setScale(4);
+        this.playerSprite.setScale(3);
         this.playerSprite.play('charidle');
         this.playerSprite.flipX = false;
 
