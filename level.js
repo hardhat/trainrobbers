@@ -15,11 +15,6 @@ export default class Level extends Phaser.Scene {
     preload() {
         this.load.image('sky', 'assets/sprites/sky.png');
 
-        this.load.image('syllable-do', 'assets/hud/syllable-do.png');
-        this.load.image('syllable-wah', 'assets/hud/syllable-wah.png');
-        this.load.image('syllable-uhuh', 'assets/hud/syllable-uhuh.png');
-        this.load.image('syllable-katta', 'assets/hud/syllable-katta.png');
-
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
         this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
@@ -174,25 +169,6 @@ export default class Level extends Phaser.Scene {
 
         this.womanWin = this.sound.add('womanwin');
         this.manWin = this.sound.add('manwin');
-    }
-
-    showSyllable(syllable, pos) {
-        const posArray = [{ x: 150, y: 300 }, { x: 200, y: 350 }, { x: 150, y: 300 }, { x: 200, y: 350 }];
-
-        var popup = this.add.sprite(posArray[pos].x, posArray[pos].y, 'syllable-' + syllable);
-
-        this.tweens.add({
-            targets: popup,
-            y: 75,
-            alpha: 0.05,
-            duration: 1200,
-            delay: 400
-        });
-        this.time.addEvent({
-            delay: 2000, callback: function () {
-                popup.destroy();
-            }, callbackScope: this, loop: false
-        });
     }
 
     update() {
