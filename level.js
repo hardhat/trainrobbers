@@ -112,10 +112,17 @@ export default class Level extends Phaser.Scene {
         this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
-        this.playerSprite = this.add.sprite(200, 400);
+        this.playerSprite = this.physics.add.sprite(200, 360, 'char', 0);
         this.playerSprite.setScale(3);
         this.playerSprite.play('charidle');
         this.playerSprite.flipX = false;
+
+        this.trainCar = new TrainCar({
+            scene: this,
+            carSprites: [this.firstClassSprite, this.thirdClassSprite]
+        });
+        this.trainCar.create();
+        this.trainCar.attachPlayer(this.playerSprite);
 
         var x = 200;
         var y = 400;
@@ -190,6 +197,7 @@ export default class Level extends Phaser.Scene {
     }
 
     update() {
+        this.trainCar.update();
         this.player.update();
         // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
         this.hud.update();
