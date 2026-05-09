@@ -5,6 +5,7 @@ import Level from './level.js'
 
 const config = {
 	type: Phaser.AUTO,
+	pixelArt: true,
 	width: 768,
 	height: 576,
 	physics: {
