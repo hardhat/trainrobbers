@@ -34,52 +34,52 @@ export default class MainMenu extends Phaser.Scene {
         this.normalButtonList = [];
         /* create list of buttons */
         this.add.image(0, 0, 'menu').setOrigin(0, 0); /* sets upper left corner of image to UL of game */
-        var newGameButton = this.add.image(400, 300, 'new');
+        var newGameButton = this.add.image(384, 288, 'new');
         newGameButton.setInteractive(); /* makes button clickable */
         newGameButton.on('clicked', function (item) {
             this.scene.start('Level'); /* actually starts battle */
         }, this);
         this.normalButtonList.push(newGameButton); /* puts button in list of buttons */
 
-        var aboutButton = this.add.image(100, 475, 'about'); /* adds button to lower left */
+        var aboutButton = this.add.image(96, 456, 'about'); /* adds button to lower left */
         aboutButton.setInteractive();
         aboutButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var aboutWindow = this.add.image(400, 300, 'credits'); /* shows the fox. Anchor is center of image. in center of screen. */
+            var aboutWindow = this.add.image(384, 288, 'credits'); /* shows the fox. Anchor is center of image. in center of screen. */
             aboutWindow.setInteractive();
             aboutWindow.on('clicked', this.deleteItem, this);
         }, this); /* end of .on('clicked') */
         this.normalButtonList.push(aboutButton);
 
-        var jamButton = this.add.image(700, 475, 'tojam'); // adds button to lower right. 
+        var jamButton = this.add.image(672, 456, 'tojam'); // adds button to lower right. 
         jamButton.setInteractive();
         jamButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var jamWindow = this.add.image(400, 300, 'jamWindow'); // shows the wolverine.
+            var jamWindow = this.add.image(384, 288, 'jamWindow'); // shows the wolverine.
             jamWindow.setInteractive();
             jamWindow.on('clicked', this.deleteItem, this);
         }, this); /* end of .on('clicked') */
         this.normalButtonList.push(jamButton);
 
-        var rulesButton = this.add.image(700, 125, 'rules'); /* adds button to upper right */
+        var rulesButton = this.add.image(672, 104, 'rules'); /* adds button to upper right */
         rulesButton.setInteractive();
         rulesButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var rulesWindow = this.add.image(400, 300, 'rulesWindow'); // shows the wolverine.
+            var rulesWindow = this.add.image(384, 288, 'rulesWindow'); // shows the wolverine.
             rulesWindow.setInteractive();
             rulesWindow.on('clicked', this.deleteItem, this);
         }, this); /* end of .on('clicked') */
         this.normalButtonList.push(rulesButton);
 
-        var goatButton = this.add.image(100, 125, 'goat'); /* adds button to upper right */
+        var goatButton = this.add.image(96, 104, 'goat'); /* adds button to upper right */
         goatButton.setInteractive();
         goatButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var goatWindow = this.add.image(400, 300, 'polegoat'); // shows the wolverine.
+            var goatWindow = this.add.image(384, 288, 'polegoat'); // shows the wolverine.
             goatWindow.setInteractive();
             goatWindow.on('clicked', this.deleteItem, this);
         }, this); /* end of .on('clicked') */
