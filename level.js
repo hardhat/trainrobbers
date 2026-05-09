@@ -2,6 +2,7 @@
 //import Phaser from 'phaser'
 import Player from './player.js'
 import Npc from './npc.js'
+import TrainCar from './traincar.js'
 import Hud from './hud.js'
 
 // Shows level background.  Stretch goal: scroll side to side
@@ -21,6 +22,7 @@ export default class Level extends Phaser.Scene {
 
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
+        this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
         this.load.image('hudBg', 'assets/hud/hud-bg.png');
@@ -103,6 +105,11 @@ export default class Level extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'sky').setOrigin(0, 0);
+
+        this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
+        this.firstClassSprite.setScale(3);
+        this.thirdClassSprite = this.add.image(540, 320, 'passengercar').setOrigin(0, 0);
+        this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
         this.playerSprite = this.physics.add.sprite(200, 400);
