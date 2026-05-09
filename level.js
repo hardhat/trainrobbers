@@ -103,7 +103,7 @@ export default class Level extends Phaser.Scene {
 
         this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
         this.firstClassSprite.setScale(3);
-        this.thirdClassSprite = this.add.image(540, 320, 'passengercar').setOrigin(0, 0);
+        this.thirdClassSprite = this.add.image(549, 320, 'passengercar').setOrigin(0, 0);
         this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
