@@ -24,8 +24,8 @@ export default class Hud extends Phaser.GameObjects.Group {
         this.addFancyText(500,30);
         this.addFancyText(150,5);
         this.addFancyText(500,5);
-        this.scene.hudText[2].text='Player: Candy';
-        this.scene.hudText[3].text='Enemy: Stewie';
+        this.scene.hudText[2].text='Get the payroll';
+        this.scene.hudText[3].text='Guards: idle';
     }
 
     update ()
@@ -45,7 +45,7 @@ export default class Hud extends Phaser.GameObjects.Group {
     {
         /*this.healthbar.crop(new Phaser.Rectangle(0, 0, (this.player.health / this.player.maxHealth) * this.width, 10));
         this.healthbar.updateCrop();*/
-        this.scene.hudText[0].text = '' + this.player.health + '/' + this.player.maxHealth;
+        this.scene.hudText[0].text = '❤️ ' + this.player.health + '/' + this.player.maxHealth;
         this.scene.hudText[1].text = '' + this.npc.health + '/' + this.npc.maxHealth;
     }
 
