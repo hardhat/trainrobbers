@@ -1,5 +1,6 @@
 // Game level goes here.
 //import Phaser from 'phaser'
+import Background from './background.js'
 import Player from './player.js'
 import Npc from './npc.js'
 import Hud from './hud.js'
@@ -13,7 +14,8 @@ export default class Level extends Phaser.Scene {
 
     preload ()
     {
-        this.load.image('sky', 'assets/sprites/sky.png');
+        this.bg = new Background(this);
+        this.bg.preload();
 
         this.load.image('syllable-do','assets/hud/syllable-do.png');
         this.load.image('syllable-wah','assets/hud/syllable-wah.png');
@@ -121,7 +123,7 @@ export default class Level extends Phaser.Scene {
 
     create ()
     {
-        this.add.image(0, 0, 'sky').setOrigin(0, 0);
+        this.bg.create();
 
         this.createAnim('stewie');
         this.playerSprite = this.add.sprite(200,400);
@@ -201,6 +203,7 @@ export default class Level extends Phaser.Scene {
 
     update ()
     {
+      this.bg.update();
       this.player.update();
       // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
       this.hud.update();
