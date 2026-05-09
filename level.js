@@ -106,9 +106,9 @@ export default class Level extends Phaser.Scene {
     create() {
         this.add.image(0, 0, 'sky').setOrigin(0, 0);
 
-        this.firstClassSprite = this.add.image(0,320, 'passengercar').setOrigin(0,0);
+        this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
         this.firstClassSprite.setScale(3);
-        this.thirdClassSprite = this.add.image(540,320, 'passengercar').setOrigin(0,0);
+        this.thirdClassSprite = this.add.image(540, 320, 'passengercar').setOrigin(0, 0);
         this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
@@ -117,16 +117,21 @@ export default class Level extends Phaser.Scene {
         this.playerSprite.play('charidle');
         this.playerSprite.flipX = false;
 
-        this.trainCar = new TrainCar({
-            scene: this,
-            carSprites: [this.firstClassSprite, this.thirdClassSprite]
-        });
-        this.trainCar.create();
-        this.trainCar.attachPlayer(this.playerSprite);
+
 
         var x = 200;
         var y = 400;
         var health = 30;
+        this.trainCar = new TrainCar({
+            scene: this,
+            sprite: this.firstClassSprite,
+            x: x,
+            y: y,
+            health: health,
+            carSprites: [this.firstClassSprite, this.thirdClassSprite],
+        });
+        this.trainCar.create();
+        this.trainCar.attachPlayer(this.playerSprite);
 
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         x = 600;
