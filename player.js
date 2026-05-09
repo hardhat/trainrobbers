@@ -14,31 +14,40 @@ export default class Player extends Actor {
     }
 
     create() {
+        this.sprite.setGravityY(100);
         this.damage = 0;
         this.nextSfx = 0;
+        this.ground = this.scene.physics.add.sprite(384, 547);
+        this.ground.displayWidth = 844;
+        this.ground.setImmovable(true);
+        this.scene.physics.add.collider(this.sprite, this.ground);
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.scene.input.keyboard.on('keydown-UP', this.doUp, this);
         this.scene.input.keyboard.on('keydown-DOWN', this.doDown, this);
-        this.scene.input.keyboard.on('keydown-LEFT', this.doLeft, this);
-        this.scene.input.keyboard.on('keydown-RIGHT', this.doRight, this);
+        //this.scene.input.keyboard.on('keydown-LEFT', this.doLeft, this);
+        //this.scene.input.keyboard.on('keydown-RIGHT', this.doRight, this);
         this.scene.input.keyboard.on('keydown-SPACE', this.doSpace, this);
         this.scene.input.keyboard.on('keydown-W', this.doUp, this);
         this.scene.input.keyboard.on('keydown-S', this.doDown, this);
         this.scene.input.keyboard.on('keydown-A', this.doLeft, this);
         this.scene.input.keyboard.on('keydown-D', this.doRight, this);
         this.enemy = this.scene.npc;
+        this.isMoving = false;
 
     }
 
     doUp(event) {
         //this.scene.showSyllable('do', this.comboString.length);
         //this.climb();
-        this.die();
+        //this.die();
+        this.jump();
         this.scene.syllable1.play();
     }
 
     doRight(event) {
         //this.scene.showSyllable('wah', this.comboString.length);
         this.walkRight();
+
         this.scene.syllable2.play();
     }
 
@@ -67,38 +76,39 @@ export default class Player extends Actor {
 
     walkLeft() {
         console.log('walk left');
-        this.sprite.play('charwalk');
+        this.sprite.play('charwalk', true);
         this.sprite.flipX = true;
-        this.scene.tweens.add({
+        /*this.scene.tweens.add({
             targets: this.sprite,
-            x: this.sprite.x - 75,
+            x: this.sprite.setVelocityX(-75),
             duration: 1000,
             delay: 0,
-        });
-        this.x -= 75;
-        this.scene.time.addEvent({
+        });*/
+        this.sprite.setVelocityX(-75);
+        /*this.scene.time.addEvent({
             delay: 1000, callback: function () {
                 this.sprite.play('charidle');
             }, callbackScope: this, loop: false
-        });
+        });*/
     }
 
     walkRight() {
         console.log('advance');
-        this.sprite.play('charwalk');
+        this.sprite.play('charwalk', true);
         this.sprite.flipX = false;
-        this.scene.tweens.add({
+        /*this.scene.tweens.add({
             targets: this.sprite,
             x: this.sprite.x + 75,
             duration: 1000,
             delay: 0,
-        });
-        this.x += 75;
+        });*/
+        this.sprite.setVelocityX(75);
+        /*this.x += 75;
         this.scene.time.addEvent({
             delay: 1000, callback: function () {
                 this.sprite.play('charidle');
             }, callbackScope: this, loop: false
-        });
+        });*/
     }
 
     shoot() {
@@ -129,7 +139,21 @@ export default class Player extends Actor {
         console.log('jump');
         this.sprite.play('charjump');
         this.sprite.flipX = false;
-        this.scene.manFight[(this.nextSfx++) % 5].play();
+        /*this.scene.manFight[(this.nextSfx++) % 5].play();'
+        this.timer = this.time.addEvent({
+            delay:100,
+            callback: this.tick,
+            callbackScope: this,
+            loop:true
+        });*/
+        this.sprite.body.setVelocityY(-110);
+        /*this.scene.tweens.add({
+            targets: this.sprite,
+            y: this.sprite.y - 75,
+            duration: 1000,
+            delay: 0,
+        });
+        this.y -= 75;*/
         this.scene.time.addEvent({
             delay: 1000, callback: function () {
                 this.sprite.play('charidle');
@@ -163,7 +187,16 @@ export default class Player extends Actor {
     }
 
     update() {
-
+        if (this.cursors.left.isDown) {
+            this.walkLeft();
+        }
+        else if (this.cursors.right.isDown) {
+            this.walkRight();
+        }
+        else {
+            this.sprite.setVelocityX(0);
+            this.sprite.play('charidle', true);
+        }
     }
 
     addFancyText(x, y) {
