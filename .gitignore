@@ -1,2 +1,3 @@
 .claude/worktrees/modest-snyder-30d004/
 .node_modules/
+*.tmp
