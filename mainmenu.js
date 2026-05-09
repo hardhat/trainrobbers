@@ -9,8 +9,8 @@ export default class MainMenu extends Phaser.Scene {
         this.gamemode = false;
     }
 
-	preload () {
-        this.load.image('menu','assets/menu/menu.png');
+    preload() {
+        this.load.image('menu', 'assets/menu/menu.png');
         this.load.image('about', 'assets/menu/Button_About.png');
         this.load.image('rules', 'assets/menu/Button_Rules.png');
         this.load.image('new', 'assets/menu/Button_New.png');
@@ -24,73 +24,72 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('credits', 'assets/menu/credits.png');
         this.load.image('rulesWindow', 'assets/menu/rulesScreen.png');
 
-        this.load.audio('1', [ 'assets/syllables/DO_woman.wav', 'assets/syllables/DO_woman.mp3', 'assets/syllables/DO_woman.ogg' ]);
-        this.load.audio('2', [ 'assets/syllables/WAH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg' ]);
-        this.load.audio('3', [ 'assets/syllables/UHUH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg' ]);
-        this.load.audio('4', [ 'assets/syllables/KATTA_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg' ]);
+        this.load.audio('1', ['assets/syllables/DO_woman.wav', 'assets/syllables/DO_woman.mp3', 'assets/syllables/DO_woman.ogg']);
+        this.load.audio('2', ['assets/syllables/WAH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
+        this.load.audio('3', ['assets/syllables/UHUH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
+        this.load.audio('4', ['assets/syllables/KATTA_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
     }
 
-    create ()  {
+    create() {
         this.normalButtonList = [];
         /* create list of buttons */
         this.add.image(0, 0, 'menu').setOrigin(0, 0); /* sets upper left corner of image to UL of game */
-        var newGameButton = this.add.image(400,300,'new');
+        var newGameButton = this.add.image(400, 300, 'new');
         newGameButton.setInteractive(); /* makes button clickable */
-        newGameButton.on('clicked', function(item) {
+        newGameButton.on('clicked', function (item) {
             this.scene.start('Level'); /* actually starts battle */
-        },this);
+        }, this);
         this.normalButtonList.push(newGameButton); /* puts button in list of buttons */
-        
-        var aboutButton = this.add.image(100,475,'about'); /* adds button to lower left */
+
+        var aboutButton = this.add.image(100, 475, 'about'); /* adds button to lower left */
         aboutButton.setInteractive();
-        aboutButton.on('clicked', function(item) {
+        aboutButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var aboutWindow = this.add.image(400,300,'credits'); /* shows the fox. Anchor is center of image. in center of screen. */
+            var aboutWindow = this.add.image(400, 300, 'credits'); /* shows the fox. Anchor is center of image. in center of screen. */
             aboutWindow.setInteractive();
-            aboutWindow.on('clicked',this.deleteItem,this);
-        },this); /* end of .on('clicked') */
+            aboutWindow.on('clicked', this.deleteItem, this);
+        }, this); /* end of .on('clicked') */
         this.normalButtonList.push(aboutButton);
 
-        var jamButton = this.add.image(700,475,'tojam'); // adds button to lower right. 
+        var jamButton = this.add.image(700, 475, 'tojam'); // adds button to lower right. 
         jamButton.setInteractive();
-        jamButton.on('clicked', function(item) {
+        jamButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var jamWindow = this.add.image(400,300,'jamWindow'); // shows the wolverine.
+            var jamWindow = this.add.image(400, 300, 'jamWindow'); // shows the wolverine.
             jamWindow.setInteractive();
-            jamWindow.on('clicked',this.deleteItem,this);
-        },this); /* end of .on('clicked') */
+            jamWindow.on('clicked', this.deleteItem, this);
+        }, this); /* end of .on('clicked') */
         this.normalButtonList.push(jamButton);
 
-        var rulesButton = this.add.image(700,125,'rules'); /* adds button to upper right */
+        var rulesButton = this.add.image(700, 125, 'rules'); /* adds button to upper right */
         rulesButton.setInteractive();
-        rulesButton.on('clicked', function(item) {
+        rulesButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var rulesWindow = this.add.image(400,300,'rulesWindow'); // shows the wolverine.
+            var rulesWindow = this.add.image(400, 300, 'rulesWindow'); // shows the wolverine.
             rulesWindow.setInteractive();
-            rulesWindow.on('clicked',this.deleteItem,this);
-        },this); /* end of .on('clicked') */
+            rulesWindow.on('clicked', this.deleteItem, this);
+        }, this); /* end of .on('clicked') */
         this.normalButtonList.push(rulesButton);
 
-        var goatButton = this.add.image(100,125,'goat'); /* adds button to upper right */
+        var goatButton = this.add.image(100, 125, 'goat'); /* adds button to upper right */
         goatButton.setInteractive();
-        goatButton.on('clicked', function(item) {
+        goatButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var goatWindow = this.add.image(400,300,'polegoat'); // shows the wolverine.
+            var goatWindow = this.add.image(400, 300, 'polegoat'); // shows the wolverine.
             goatWindow.setInteractive();
-            goatWindow.on('clicked',this.deleteItem,this);
-        },this); /* end of .on('clicked') */
+            goatWindow.on('clicked', this.deleteItem, this);
+        }, this); /* end of .on('clicked') */
         this.normalButtonList.push(goatButton);
 
         //  If a Game Object is clicked on, this event is fired.
         //  We can use it to emit the 'clicked' event on the game object itself.
-        this.input.on('gameobjectup', function (pointer, gameObject)
-        {
+        this.input.on('gameobjectup', function (pointer, gameObject) {
             gameObject.emit('clicked', gameObject);
-        }, this); 
+        }, this);
 
         this.createSounds();
     }
@@ -111,7 +110,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     deleteItem(item) { /* deletes passed in object and resets to normal */
-        item.off('clicked',this.deleteItem);
+        item.off('clicked', this.deleteItem);
         item.input.enabled = false;
         item.setVisible(false);
         //this.syllable4.play();
@@ -124,41 +123,45 @@ export default class MainMenu extends Phaser.Scene {
         this.syllable3 = this.sound.add('3');
         this.syllable4 = this.sound.add('4');
         console.log('Do Wa Uhuh Katta');
-    
-        this.input.keyboard.on('keydown-SPACE', function () {
+
+        /*this.input.keyboard.on('keydown-SPACE', function () {
             console.log("Quiet.");
             this.sound.stopAll();
-        }, this);
-    
+        }, this);*/
+
         this.input.keyboard.on('keydown-A', function () {
             console.log("Do");
             //this.syllable1.play();
         }, this);
-    
+
         this.input.keyboard.on('keydown-W', function () {
             console.log("Wa");
             //this.syllable2.play();
         }, this);
-    
+
         this.input.keyboard.on('keydown-S', function () {
             console.log("Uhuh");
             //this.syllable3.play();
         }, this);
-    
+
         this.input.keyboard.on('keydown-D', function () {
             console.log("Katta");
             //this.syllable4.play();
         }, this);
 
-        this.time.addEvent({ delay: 1000, callback: function() {
-            //this.syllable1.play();
-        }, callbackScope: this, loop: false });
-        this.time.addEvent({ delay: 2000, callback: function() {
-            //this.syllable2.play();
-        }, callbackScope: this, loop: false });
+        this.time.addEvent({
+            delay: 1000, callback: function () {
+                //this.syllable1.play();
+            }, callbackScope: this, loop: false
+        });
+        this.time.addEvent({
+            delay: 2000, callback: function () {
+                //this.syllable2.play();
+            }, callbackScope: this, loop: false
+        });
     }
 
-    update () {
+    update() {
         return;
     }
 
