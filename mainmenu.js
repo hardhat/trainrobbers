@@ -18,7 +18,7 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('dog', 'assets/menu/dog.png');
         this.load.image('polegoat', 'assets/menu/goatonapole.jpg');
         this.load.image('back', 'assets/menu/Button_Back.png');
-        this.load.image('jamWindow', 'assets/menu/jamWindow.png');
+        this.load.spritesheet('jamWindow', 'assets/menu/Bg_Desert_Sheet.png', { frameWidth: 256, frameHeight: 244 });
         this.load.image('goat', 'assets/menu/Button_GOAT.png');
         this.load.image('tojam', 'assets/menu/Button_ToJam.png');
         this.load.image('credits', 'assets/menu/credits.png');
@@ -31,6 +31,13 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() {
+        this.anims.create({
+            key: 'jamAnim',
+            frames: this.anims.generateFrameNumbers('jamWindow', { start: 0, end: 3 }),
+            frameRate: 2, // Play slowly
+            repeat: -1 // Loop indefinitely
+        });
+
         this.normalButtonList = [];
         /* create list of buttons */
         this.add.image(0, 0, 'menu').setOrigin(0, 0); /* sets upper left corner of image to UL of game */
@@ -57,9 +64,17 @@ export default class MainMenu extends Phaser.Scene {
         jamButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
-            var jamWindow = this.add.image(384, 288, 'jamWindow'); // shows the wolverine.
+            var jamWindow = this.add.sprite(384, 288, 'jamWindow');
+            jamWindow.setDisplaySize(768, 576);
+            jamWindow.play('jamAnim');
             jamWindow.setInteractive();
-            jamWindow.on('clicked', this.deleteItem, this);
+
+            let closeJam = () => {
+                jamWindow.destroy();
+                this.showNormalButtons();
+            };
+
+            jamWindow.on('clicked', closeJam, this);
         }, this); /* end of .on('clicked') */
         this.normalButtonList.push(jamButton);
 
