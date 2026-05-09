@@ -19,6 +19,8 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('polegoat', 'assets/menu/goatonapole.jpg');
         this.load.image('back', 'assets/menu/Button_Back.png');
         this.load.spritesheet('jamWindow', 'assets/menu/Bg_Desert_Sheet.png', { frameWidth: 256, frameHeight: 244 });
+        this.load.image('toJam20Years', 'assets/menu/ToJam20Years.png');
+        this.load.image('steamTrain', 'assets/menu/SteamTrain.png');
         this.load.image('goat', 'assets/menu/Button_GOAT.png');
         this.load.image('tojam', 'assets/menu/Button_ToJam.png');
         this.load.image('credits', 'assets/menu/credits.png');
@@ -41,6 +43,10 @@ export default class MainMenu extends Phaser.Scene {
         this.normalButtonList = [];
         /* create list of buttons */
         this.add.image(0, 0, 'menu').setOrigin(0, 0); /* sets upper left corner of image to UL of game */
+
+        var steamTrain = this.add.image(384, 120, 'steamTrain'); // Moved lower
+        steamTrain.setScale(5); // Made bigger
+
         var newGameButton = this.add.image(384, 288, 'new');
         newGameButton.setInteractive(); /* makes button clickable */
         newGameButton.on('clicked', function (item) {
@@ -68,13 +74,18 @@ export default class MainMenu extends Phaser.Scene {
             jamWindow.setDisplaySize(768, 576);
             jamWindow.play('jamAnim');
             jamWindow.setInteractive();
+            var toJam20Years = this.add.image(774, 526, 'toJam20Years').setOrigin(1, 1);
+            toJam20Years.setDisplaySize(658, 165);
+            toJam20Years.setInteractive();
 
             let closeJam = () => {
                 jamWindow.destroy();
+                toJam20Years.destroy();
                 this.showNormalButtons();
             };
 
             jamWindow.on('clicked', closeJam, this);
+            toJam20Years.on('clicked', closeJam, this);
         }, this); /* end of .on('clicked') */
         this.normalButtonList.push(jamButton);
 
