@@ -17,21 +17,17 @@ export default class Player extends Actor {
         this.sprite.setGravityY(100);
         this.damage = 0;
         this.nextSfx = 0;
-        this.ground = this.scene.physics.add.sprite(384, 547);
-        this.ground.displayWidth = 844;
-        this.ground.setImmovable(true);
-        this.scene.physics.add.collider(this.sprite, this.ground);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-        this.scene.input.keyboard.on('keydown-UP', this.doUp, this);
-        this.scene.input.keyboard.on('keydown-DOWN', this.doDown, this);
+        // this.scene.input.keyboard.on('keydown-UP', this.doUp, this);
+        //this.scene.input.keyboard.on('keydown-DOWN', this.doDown, this);
         //this.scene.input.keyboard.on('keydown-LEFT', this.doLeft, this);
         //this.scene.input.keyboard.on('keydown-RIGHT', this.doRight, this);
-        this.scene.input.keyboard.on('keydown-SPACE', this.doSpace, this);
-        this.scene.input.keyboard.on('keydown-W', this.doUp, this);
-        this.scene.input.keyboard.on('keydown-S', this.doDown, this);
-        this.scene.input.keyboard.on('keydown-A', this.doLeft, this);
-        this.scene.input.keyboard.on('keydown-D', this.doRight, this);
-        this.enemy = this.scene.npc;
+        // this.scene.input.keyboard.on('keydown-SPACE', this.doSpace, this);
+        //this.scene.input.keyboard.on('keydown-W', this.doUp, this);
+        //this.scene.input.keyboard.on('keydown-S', this.doDown, this);
+        //this.scene.input.keyboard.on('keydown-A', this.doLeft, this);
+        //this.scene.input.keyboard.on('keydown-D', this.doRight, this);
+        // this.enemy = this.scene.npc;
         this.isMoving = false;
 
     }
@@ -78,37 +74,14 @@ export default class Player extends Actor {
         console.log('walk left');
         this.sprite.play('charwalk', true);
         this.sprite.flipX = true;
-        /*this.scene.tweens.add({
-            targets: this.sprite,
-            x: this.sprite.setVelocityX(-75),
-            duration: 1000,
-            delay: 0,
-        });*/
         this.sprite.setVelocityX(-75);
-        /*this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });*/
     }
 
     walkRight() {
         console.log('advance');
         this.sprite.play('charwalk', true);
         this.sprite.flipX = false;
-        /*this.scene.tweens.add({
-            targets: this.sprite,
-            x: this.sprite.x + 75,
-            duration: 1000,
-            delay: 0,
-        });*/
         this.sprite.setVelocityX(75);
-        /*this.x += 75;
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });*/
     }
 
     shoot() {
@@ -137,44 +110,14 @@ export default class Player extends Actor {
 
     jump() {
         console.log('jump');
-        this.sprite.play('charjump');
+        this.sprite.play('charjump', true);
         this.sprite.flipX = false;
-        /*this.scene.manFight[(this.nextSfx++) % 5].play();'
-        this.timer = this.time.addEvent({
-            delay:100,
-            callback: this.tick,
-            callbackScope: this,
-            loop:true
-        });*/
-        this.sprite.body.setVelocityY(-110);
-        /*this.scene.tweens.add({
-            targets: this.sprite,
-            y: this.sprite.y - 75,
-            duration: 1000,
-            delay: 0,
-        });
-        this.y -= 75;*/
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });
+        this.sprite.body.setVelocityY(-150);
     }
 
     duck() {
         console.log('duck');
-        this.sprite.play('charduck');
-        this.sprite.flipX = false;
-        this.scene.manFight[(this.nextSfx++) % 5].play();
-        if (this.scene.npc.x - this.x <= 100) {
-            this.dealDamage(5);
-        }
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });
-        this.scene.npc.isAlive();
+        this.sprite.play('charduck', true);
     }
 
     die() {
@@ -189,11 +132,13 @@ export default class Player extends Actor {
     update() {
         if (this.cursors.left.isDown) {
             this.walkLeft();
-        }
-        else if (this.cursors.right.isDown) {
+        } else if (this.cursors.right.isDown) {
             this.walkRight();
-        }
-        else {
+        } else if (this.cursors.down.isDown) {
+            this.duck();
+        } else if (this.cursors.up.isDown && this.sprite.body.onFloor()) {
+            this.jump();
+        } else {
             this.sprite.setVelocityX(0);
             this.sprite.play('charidle', true);
         }
