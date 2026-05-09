@@ -105,15 +105,17 @@ export default class Level extends Phaser.Scene {
         this.add.image(0, 0, 'sky').setOrigin(0, 0);
 
         this.createAnim('char');
-        this.playerSprite = this.add.sprite(200, 400);
+        this.playerSprite = this.physics.add.sprite(200, 400);
+        this.playerSprite.setBounce(0.2);
+        this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.setScale(4);
         this.playerSprite.play('charidle');
         this.playerSprite.flipX = false;
 
+
         var x = 200;
         var y = 400;
         var health = 30;
-
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
@@ -139,10 +141,10 @@ export default class Level extends Phaser.Scene {
         this.syllable4 = this.sound.add('4');
         console.log('Do Wa Uhuh Katta');
 
-        this.input.keyboard.on('keydown-SPACE', function () {
+        /*this.input.keyboard.on('keydown-SPACE', function () {
             console.log("Quiet.");
             this.sound.stopAll();
-        }, this);
+        }, this);*/
 
         this.womanFight = [];
         this.womanFight.push(this.sound.add('woman1'));
