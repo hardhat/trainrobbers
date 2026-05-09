@@ -44,8 +44,8 @@ export default class MainMenu extends Phaser.Scene {
         /* create list of buttons */
         this.add.image(0, 0, 'menu').setOrigin(0, 0); /* sets upper left corner of image to UL of game */
 
-        var steamTrain = this.add.image(384, 120, 'steamTrain'); // Moved lower
-        steamTrain.setScale(5); // Made bigger
+        var steamTrain = this.add.image(384, 120, 'steamTrain');
+        steamTrain.setScale(5);
 
         var newGameButton = this.add.image(384, 288, 'new');
         newGameButton.setInteractive(); /* makes button clickable */
