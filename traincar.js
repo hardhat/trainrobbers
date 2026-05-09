@@ -17,19 +17,22 @@ export default class TrainCar extends Actor {
     }
 
     createCollisionPlatforms() {
-        const floorWidth = 180 * 3;
+        const floorWidth = 146 * 3;
         const floorHeight = 1;
-        const roofWidth = 144 * 3;
+        const roofWidth = 146 * 3;
         const roofheight = 1;
 
-        this.createCollisionRectangle(this.x, this.y + 20, floorWidth, floorHeight);
-        this.createCollisionRectangle(this.x, this.y, roofWidth, roofheight);
+        this.createCollisionRectangle(this.x, this.y + 130, 19 * 3, floorHeight);
+        this.createCollisionRectangle(this.x + (floorWidth / 2) + 57, this.y + 160, floorWidth, floorHeight);
+        this.createCollisionRectangle(this.x + floorWidth + 57, this.y + 130, 19 * 3, floorHeight);
+
+        //this.createCollisionRectangle(this.X, this.y + 52, roofWidth, roofheight);
     }
 
-    createCollisionRectangle(x, y, width, height) {
-        const rect = this.scene.add.rectangle(x, y, width, height, 0x0000ff, 0);
-        this.scene.physics.add.existing(rect, true);
+    createCollisionRectangle(x1, y1, width, height) {
+        let rect = this.scene.platforms.create(x1, y1, null).setSize(width, height).setOrigin(0, 0).setVisible(false).setAlpha(0);
         this.scene.platforms.add(rect);
+
     }
 
 

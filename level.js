@@ -107,7 +107,7 @@ export default class Level extends Phaser.Scene {
         this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
-        this.playerSprite = this.physics.add.sprite(200, 310);
+        this.playerSprite = this.physics.add.sprite(200, 250);
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.setScale(3);
@@ -116,8 +116,8 @@ export default class Level extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
 
-        var x = 0;
-        var y = 0;
+        var x = 200;
+        var y = 400;
         var health = 30;
 
         this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: 0, y: 320, health: health });
