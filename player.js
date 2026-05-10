@@ -83,9 +83,13 @@ export default class Player extends Actor {
 
         if (isAtLadder) {
             this.sprite.body.setAllowGravity(false);
+            this.sprite.body.checkCollision.down = false;
+            this.sprite.body.checkCollision.up = false;
             console.log('yay ladder');
         } else {
             this.sprite.body.setAllowGravity(true);
+            this.sprite.body.checkCollision.down = true;
+            this.sprite.body.checkCollision.up = true;
         }
 
         if (this.cursors.left.isDown) {
