@@ -3,10 +3,11 @@ import Actor from './actor.js'
 // Listens for rhythm based commands and updates Actor class
 
 export default class TrainCar extends Actor {
-    constructor({ scene, sprite1, sprite2, x, y, health }) {
-        super({ scene, sprite1, sprite2, x, y, health });
+    constructor({ scene, sprite1, sprite2, wheels, x, y, health }) {
+        super({ scene, sprite1, sprite2, wheels, x, y, health });
         this.sprite1 = sprite1;
         this.sprite2 = sprite2;
+        this.wheels = wheels;
         this.scene = scene;
         this.x = x;
         this.y = y;
@@ -21,6 +22,9 @@ export default class TrainCar extends Actor {
         this.interior = this.scene.add.image(this.x, this.y, this.sprite2).setOrigin(0, 0);
         this.interior.setScale(3);
         this.interior.setAlpha(0);
+
+        this.wheels = this.scene.add.image(this.x + 54, this.y + 87, this.wheels).setOrigin(0, 0);
+        this.wheels.setScale(3);
 
         this.createCollisionPlatforms();
         this.createLadders();
@@ -37,6 +41,7 @@ export default class TrainCar extends Actor {
         this.mainFloor = this.createCollisionRectangle(this.x, this.y + 120, 10000, floorHeight);
         this.extPlatform2 = this.createCollisionRectangle(this.x + floorWidth + 90, this.y + 80, 40, floorHeight);
         this.roofPlatform = this.createCollisionRectangle(this.x + 278, this.y, roofWidth, roofheight);
+        this.interiorFloor = this.createCollisionRectangle(this.x + 275, this.y + 80, 440, floorHeight);
         console.log('x = ' + this.x + (floorWidth / 2));
     }
 
@@ -66,7 +71,7 @@ export default class TrainCar extends Actor {
     }
 
     createInteractZones() {
-        const interactZoneWidth = 480;
+        const interactZoneWidth = 440;
         const interactZoneHeight = 75;
 
         this.createInteractZone(this.x + 275, this.y + 40, interactZoneWidth, interactZoneHeight);
@@ -112,6 +117,9 @@ export default class TrainCar extends Actor {
         if (this.roofPlatform) this.roofPlatform.body.enable = enableExterior;
         if (this.extPlatform1) this.extPlatform1.body.enable = enableExterior;
         if (this.extPlatform2) this.extPlatform2.body.enable = enableExterior;
+
+        // Toggle interior collision zone
+        if (this.interiorFloor) this.interiorFloor.body.enable = isInside;
     }
 
 };

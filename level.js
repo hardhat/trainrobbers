@@ -23,7 +23,7 @@ export default class Level extends Phaser.Scene {
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
         this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
         this.passengerInterior = this.load.image('passengerinterior', 'assets/trains/interior-passengercar.png');
-        this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger.png');
+        this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger-car.png');
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
@@ -116,7 +116,7 @@ export default class Level extends Phaser.Scene {
         this.track = this.add.tileSprite(0, 430, 768, 6, 'track').setOrigin(0, 0).setTileScale(3, 3);
 
         this.createAnim('char');
-        this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0);
+        this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0).setDepth(200);
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.setScale(3);
@@ -131,8 +131,8 @@ export default class Level extends Phaser.Scene {
         var y = 400;
         var health = 30;
 
-        this.traincar = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 0, y: 320, health: health });
-        this.traincar2 = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 549, y: 320, health: health });
+        this.traincar = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', wheels: 'wheels', x: 0, y: 320, health: health });
+        this.traincar2 = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', wheels: 'wheels', x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
@@ -147,9 +147,10 @@ export default class Level extends Phaser.Scene {
         }*/
 
         this.createSounds();
+        this.player.create();
         this.traincar.create();
         this.traincar2.create();
-        this.player.create();
+
         //this.npc.create();
     }
 
