@@ -13,16 +13,23 @@ export default class Collectible extends Actor {
         // Set scale similar to player or train car, 3 is used for train
         this.spriteObj.setScale(3);
         this.spriteObj.setAlpha(0); // Start invisible, sync with traincar interior
-
         // Create its own interact zone
-        this.interactZone = this.scene.add.zone(this.x, this.y).setSize(16 * 3, 16 * 3).setOrigin(0, 0);
-        this.scene.physics.world.enable(this.interactZone);
-        this.interactZone.body.setAllowGravity(false);
-        this.interactZone.body.moves = false;
-        this.interactZone.collectible = this;
+        if (this.scene.collectibleZones) {
+            this.interactZone = this.scene.collectibleZones.create(this.x, this.y, null).setSize(16 * 3, 16 * 3).setOffset(16, 16).setOrigin(0, 0).setVisible(false).setAlpha(0);
+            this.interactZone.collectible = this;
+        }
+        this.collected = false;
+    }
+
+    collect() {
+        if (this.collected) return;
+        this.collected = true;
+        if (this.spriteObj) this.spriteObj.destroy();
+        if (this.interactZone) this.interactZone.destroy();
     }
 
     update(targetAlpha) {
+        if (this.collected) return;
         if (this.spriteObj) {
             if (this.spriteObj.alpha < targetAlpha) {
                 this.spriteObj.alpha = Math.min(1, this.spriteObj.alpha + 0.05);

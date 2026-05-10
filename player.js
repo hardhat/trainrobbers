@@ -96,6 +96,13 @@ export default class Player extends Actor {
 
         const isAtInteractZone = this.scene.physics.overlap(this.sprite, this.scene.interactZones);
 
+        let activeCollectible = null;
+        if (this.scene.collectibleZones) {
+            this.scene.physics.overlap(this.sprite, this.scene.collectibleZones, (player, zone) => {
+                activeCollectible = zone.collectible;
+            });
+        }
+
         if (!isAtLadder) {
             this.isClimbing = false;
         } else if (this.cursors.up.isDown || this.wasd.up.isDown || this.cursors.down.isDown || this.wasd.down.isDown) {
@@ -165,7 +172,10 @@ export default class Player extends Actor {
         } else if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
             this.shoot();
         } else if (Phaser.Input.Keyboard.JustDown(this.cursors.shift) || Phaser.Input.Keyboard.JustDown(this.eKey)) {
-            if (isAtInteractZone) {
+            if (activeCollectible && !activeCollectible.collected) {
+                activeCollectible.collect();
+                console.log('Collected moneybag!');
+            } else if (isAtInteractZone) {
                 console.log('interact');
             }
         } else {

@@ -31,10 +31,10 @@ export default class TrainCar extends Actor {
         this.createLadders();
         this.createInteractZones();
 
-        this.collectible1 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 300, y: this.y + 70, value: 100 });
+        this.collectible1 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 100, y: this.y + 30, value: 100 });
         this.collectible1.create();
 
-        this.collectible2 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 650, y: this.y + 70, value: 100 });
+        this.collectible2 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 350, y: this.y + 30, value: 100 });
         this.collectible2.create();
     }
 
