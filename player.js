@@ -80,6 +80,7 @@ export default class Player extends Actor {
 
         const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders);
 
+
         if (isAtLadder) {
             this.sprite.body.setAllowGravity(false);
             console.log('yay ladder');
