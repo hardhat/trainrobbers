@@ -20,7 +20,31 @@ export default class Hud extends Phaser.Scene {
         this.winText.setShadow(3, 3, '#000', 3, true, true);
         this.winText.setDepth(100);
 
+        this.restartButton = this.add.text(384, 330, 'RESTART', { 
+            font: '30px Arial Black', 
+            fill: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 20, y: 10 }
+        }).setOrigin(0.5).setInteractive();
+        
+        this.restartButton.on('pointerdown', () => {
+            this.scene.stop();
+            this.scene.get('Level').scene.restart();
+        });
+
+        this.restartButton.on('pointerover', () => {
+            this.restartButton.setStyle({ fill: '#ffff00' });
+        });
+
+        this.restartButton.on('pointerout', () => {
+            this.restartButton.setStyle({ fill: '#ffffff' });
+        });
+        
+        this.restartButton.setVisible(false);
+        this.restartButton.setDepth(100);
+
         this.registry.set('moneybagsCollected', 0);
+        this.registry.set('gameState', 'playing');
     }
 
     addFancyText(x, y) {
@@ -50,8 +74,10 @@ export default class Hud extends Phaser.Scene {
         if (gameState === 'lost' && this.winText.text === '') {
             this.winText.text = 'GAME OVER\nYou fell off the train!';
             this.winText.setFill('#ff0000');
+            this.restartButton.setVisible(true);
         } else if (collected >= 4 && this.winText.text === '') {
             this.winText.text = 'YOU WON!\nYou Robbed the Train!';
+            this.restartButton.setVisible(true);
         }
     }
 }

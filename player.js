@@ -69,7 +69,9 @@ export default class Player extends Actor {
         if (this.isDead) return;
         this.isDead = true;
         this.sprite.play('chardie', true);
-        this.sprite.setVelocityX(0);
+        this.sprite.setVelocityX(-120);
+        this.sprite.setCollideWorldBounds(false);
+        this.sprite.body.setAllowGravity(false);
         this.scene.registry.set('gameState', 'lost');
     }
 
@@ -87,14 +89,8 @@ export default class Player extends Actor {
         this.sprite.setOffset(3, 8);
     }
 
-    die() {
-        this.sprite.play('chardie');
-        this.sprite.setVelocityX(0);
-        this.sprite.setVelocityY(0);
-    }
     update() {
         if (this.isDead) {
-            this.sprite.setVelocityX(0);
             return;
         }
 
