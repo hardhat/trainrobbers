@@ -125,6 +125,7 @@ export default class Level extends Phaser.Scene {
         var health = 30;
 
         this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: 0, y: 320, health: health });
+        this.traincar2 = new TrainCar({ scene: this, sprite: this.thirdClassSprite, x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
@@ -139,6 +140,7 @@ export default class Level extends Phaser.Scene {
 
         this.createSounds();
         this.traincar.create();
+        this.traincar2.create();
         this.player.create();
         //this.npc.create();
     }
