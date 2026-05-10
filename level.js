@@ -22,6 +22,8 @@ export default class Level extends Phaser.Scene {
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
         this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
+        this.passengerInterior = this.load.image('passengerinterior', 'assets/trains/interior-passengercar.png');
+        this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger.png');
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
@@ -129,8 +131,8 @@ export default class Level extends Phaser.Scene {
         var y = 400;
         var health = 30;
 
-        this.traincar = new TrainCar({ scene: this, sprite: 'passenger', x: 0, y: 320, health: health });
-        this.traincar2 = new TrainCar({ scene: this, sprite: 'passenger', x: 549, y: 320, health: health });
+        this.traincar = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 0, y: 320, health: health });
+        this.traincar2 = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
@@ -189,6 +191,8 @@ export default class Level extends Phaser.Scene {
 
     update() {
         this.player.update();
+        if (this.traincar) this.traincar.update();
+        if (this.traincar2) this.traincar2.update();
         // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
         this.hud.update();
         // Need to scroll the sky image.
