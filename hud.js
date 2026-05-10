@@ -38,6 +38,8 @@ export default class Hud extends Phaser.GameObjects.Group {
         var text = this.scene.add.text(x,y,'',{font: "20px Arial Black", fill: "#fff"});
         text.setStroke('#00f', 5);
         text.setShadow(2,2,'#333333',2,true,true);
+        text.setScrollFactor(0);
+        text.setDepth(100);
         this.scene.hudText.push(text);
     }
 
