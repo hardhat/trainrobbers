@@ -13,6 +13,10 @@ export default class TrainCar extends Actor {
     }
 
     create() {
+
+        this.firstClassSprite = this.scene.add.image(this.x, this.y, 'passengercar').setOrigin(0, 0);
+        this.firstClassSprite.setScale(3);
+
         this.createCollisionPlatforms();
         this.createLadders();
         this.createInteractZones();

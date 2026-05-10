@@ -86,18 +86,51 @@ export default class Player extends Actor {
         this.sprite.setSize(10, 16);
         this.sprite.setOffset(3, 0);
 
-        const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders);
+        let activeLadder = null;
+        const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders, (player, ladder) => {
+            activeLadder = ladder;
+        });
+
         const isAtInteractZone = this.scene.physics.overlap(this.sprite, this.scene.interactZones);
 
-        if (isAtInteractZone) {
-
+        if (!isAtLadder) {
+            this.isClimbing = false;
+        } else if (this.cursors.up.isDown || this.wasd.up.isDown || this.cursors.down.isDown || this.wasd.down.isDown) {
+            this.isClimbing = true;
         }
 
-
-        if (isAtLadder) {
+        if (this.isClimbing) {
             this.sprite.body.setAllowGravity(false);
             this.sprite.body.checkCollision.down = false;
             this.sprite.body.checkCollision.up = false;
+            this.sprite.setVelocityX(0);
+
+            // Snap player to be inline with the ladder
+            if (activeLadder) {
+                let ladderCenter = activeLadder.x + (activeLadder.width / 2);
+                let diff = ladderCenter - this.sprite.x;
+                if (Math.abs(diff) > 0.5) {
+                    this.sprite.x += diff * 0.2;
+                } else {
+                    this.sprite.x = ladderCenter;
+                }
+
+                // Stop climbing if we reached the platform at the bottom
+                let isTouchingBottomPlatform = false;
+                if (this.sprite.body.velocity.y > 0) {
+                    this.scene.physics.overlap(this.sprite, this.scene.platforms, (player, platform) => {
+                        let ladderBottom = activeLadder.y + activeLadder.displayHeight;
+                        // Only snap if the platform is near the bottom of the ladder
+                        if (Math.abs(platform.y - ladderBottom) < 30 && player.body.bottom >= platform.y - 2) {
+                            isTouchingBottomPlatform = true;
+                        }
+                    });
+                }
+
+                if (isTouchingBottomPlatform) {
+                    this.isClimbing = false;
+                }
+            }
         } else {
             this.sprite.body.setAllowGravity(true);
             this.sprite.body.checkCollision.down = true;
@@ -108,19 +141,19 @@ export default class Player extends Actor {
             console.log('yay interact zone');
         }
 
-        if (this.cursors.left.isDown || this.wasd.left.isDown) {
+        if ((this.cursors.left.isDown || this.wasd.left.isDown) && !this.isClimbing) {
             this.walkLeft();
-        } else if (this.cursors.right.isDown || this.wasd.right.isDown) {
+        } else if ((this.cursors.right.isDown || this.wasd.right.isDown) && !this.isClimbing) {
             this.walkRight();
         } else if (this.cursors.down.isDown || this.wasd.down.isDown) {
-            if (isAtLadder) {
+            if (this.isClimbing) {
                 this.climb();
                 this.sprite.setVelocityY(100);
             } else {
                 this.duck();
             }
         } else if (this.cursors.up.isDown || this.wasd.up.isDown) {
-            if (isAtLadder) {
+            if (this.isClimbing) {
                 this.climb();
                 this.sprite.setVelocityY(-100);
             } else if (this.sprite.body.onFloor()) {
@@ -129,11 +162,13 @@ export default class Player extends Actor {
         } else if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
             this.shoot();
         } else if (Phaser.Input.Keyboard.JustDown(this.cursors.shift) || Phaser.Input.Keyboard.JustDown(this.eKey)) {
-            console.log('interact');
+            if (isAtInteractZone) {
+                console.log('interact');
+            }
         } else {
             this.sprite.setVelocityX(0);
 
-            if (isAtLadder) {
+            if (this.isClimbing) {
                 this.sprite.setVelocityY(0);
             }
 

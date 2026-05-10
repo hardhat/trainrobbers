@@ -110,13 +110,8 @@ export default class Level extends Phaser.Scene {
         // Sky and mountain are already large native pixels — no tile scaling needed.
         // Track source is 256x2, so scale it up to be visible.
         this.sky = this.add.tileSprite(0, 0, 768, 576, 'sky').setOrigin(0, 0);
-        this.mountain = this.add.tileSprite(0,124, 768, 101, 'mountain').setOrigin(0, 0);
+        this.mountain = this.add.tileSprite(0, 124, 768, 101, 'mountain').setOrigin(0, 0);
         this.track = this.add.tileSprite(0, 430, 768, 6, 'track').setOrigin(0, 0).setTileScale(3, 3);
-
-        this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
-        this.firstClassSprite.setScale(3);
-        this.thirdClassSprite = this.add.image(549, 320, 'passengercar').setOrigin(0, 0);
-        this.thirdClassSprite.setScale(3);
 
         this.createAnim('char');
         this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0);
@@ -134,8 +129,8 @@ export default class Level extends Phaser.Scene {
         var y = 400;
         var health = 30;
 
-        this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: 0, y: 320, health: health });
-        this.traincar2 = new TrainCar({ scene: this, sprite: this.thirdClassSprite, x: 549, y: 320, health: health });
+        this.traincar = new TrainCar({ scene: this, sprite: 'passenger', x: 0, y: 320, health: health });
+        this.traincar2 = new TrainCar({ scene: this, sprite: 'passenger', x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
