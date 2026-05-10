@@ -27,6 +27,7 @@ export default class Level extends Phaser.Scene {
         this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger-car.png');
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
         this.load.image('moneybags', 'assets/sprites/moneybags.png');
+        this.load.image('interactPrompt', 'assets/menu/InteractionPromt.png');
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
         this.load.image('hudBg', 'assets/hud/hud-bg.png');
