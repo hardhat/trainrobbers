@@ -22,8 +22,10 @@ export default class Level extends Phaser.Scene {
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
         this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
+        this.load.image('coalcar', 'assets/trains/wheeled-train-coal-car.png');
+        this.load.image('enginecar', 'assets/trains/wheeled-train-engine-car.png');
         this.passengerInterior = this.load.image('passengerinterior', 'assets/trains/interior-passengercar.png');
-        this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger.png');
+        this.wheels = this.load.image('wheels', 'assets/trains/wheels-for-passenger-car.png');
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
@@ -109,14 +111,19 @@ export default class Level extends Phaser.Scene {
     }
 
     create() {
-        // Sky and mountain are already large native pixels — no tile scaling needed.
-        // Track source is 256x2, so scale it up to be visible.
-        this.sky = this.add.tileSprite(0, 0, 768, 576, 'sky').setOrigin(0, 0);
-        this.mountain = this.add.tileSprite(0, 124, 768, 101, 'mountain').setOrigin(0, 0);
-        this.track = this.add.tileSprite(0, 430, 768, 6, 'track').setOrigin(0, 0).setTileScale(3, 3);
+        const WORLD_WIDTH = 2000;
+
+        // Fix TileSprites to the camera (setScrollFactor 0) so they always fill the screen.
+        // tilePositionX is driven from camera.scrollX in update() for parallax.
+        this.sky = this.add.tileSprite(0, 0, 768, 576, 'sky').setOrigin(0, 0).setScrollFactor(0);
+        this.mountain = this.add.tileSprite(0, 124, 768, 101, 'mountain').setOrigin(0, 0).setScrollFactor(0);
+        this.track = this.add.tileSprite(0, 430, 768, 6, 'track').setOrigin(0, 0).setScrollFactor(0).setTileScale(3, 3);
+
+        this.physics.world.setBounds(0, 0, WORLD_WIDTH, 576);
+        this.cameras.main.setBounds(0, 0, WORLD_WIDTH, 576);
 
         this.createAnim('char');
-        this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0);
+        this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0).setDepth(200);
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.setScale(3);
@@ -133,6 +140,13 @@ export default class Level extends Phaser.Scene {
 
         this.traincar = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 0, y: 320, health: health });
         this.traincar2 = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', x: 549, y: 320, health: health });
+
+        // Coal car (64x28 → 192x84 at scale 3); bottom-aligned with passenger car bottom (y=434) → y=350
+        this.coalCarSprite = this.add.image(1101, 350, 'coalcar').setOrigin(0, 0).setScale(3);
+        // Engine car (129x52 → 387x156 at scale 3); bottom-aligned → y=278
+        this.engineCarSprite = this.add.image(1293, 278, 'enginecar').setOrigin(0, 0).setScale(3);
+        this.traincar = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', wheels: 'wheels', x: 0, y: 320, health: health });
+        this.traincar2 = new TrainCar({ scene: this, sprite1: 'passengercar', sprite2: 'passengerinterior', wheels: 'wheels', x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
         this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
@@ -146,10 +160,13 @@ export default class Level extends Phaser.Scene {
             this.npcSprite.play('candyidle');
         }*/
 
+        this.cameras.main.startFollow(this.playerSprite, true);
+
         this.createSounds();
+        this.player.create();
         this.traincar.create();
         this.traincar2.create();
-        this.player.create();
+
         //this.npc.create();
     }
 
@@ -195,10 +212,11 @@ export default class Level extends Phaser.Scene {
         if (this.traincar2) this.traincar2.update();
         // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
         this.hud.update();
-        // Need to scroll the sky image.
-        this.sky.tilePositionX += 3;
-        this.track.tilePositionX += 3;
-        this.mountain.tilePositionX += 1;
+        // Constant auto-scroll: train is always moving.
+        this.bgScrollX = (this.bgScrollX || 0) + 2;
+        this.sky.tilePositionX = this.bgScrollX * 0.1;
+        this.mountain.tilePositionX = this.bgScrollX * 0.4;
+        this.track.tilePositionX = this.bgScrollX * 1.0;
     }
 
 }
