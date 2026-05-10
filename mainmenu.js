@@ -12,8 +12,14 @@ export default class MainMenu extends Phaser.Scene {
     preload() {
         this.load.image('menu', 'assets/menu/menu.png');
         this.load.image('about', 'assets/menu/Button_About.png');
+        this.load.image('about_hover', 'assets/menu/Button_About_Hover.png');
+        this.load.image('about_click', 'assets/menu/Button_About_Click.png');
         this.load.image('rules', 'assets/menu/Button_Rules.png');
+        this.load.image('rules_hover', 'assets/menu/Button_Rules_Hover.png');
+        this.load.image('rules_click', 'assets/menu/Button_Rules_Click.png');
         this.load.image('new', 'assets/menu/Button_New.png');
+        this.load.image('new_hover', 'assets/menu/Button_New_Hover.png');
+        this.load.image('new_click', 'assets/menu/Button_New_Click.png');
         this.load.image('history', 'assets/menu/Button_History.png');
         this.load.image('dog', 'assets/menu/dog.png');
         this.load.image('polegoat', 'assets/menu/goatonapole.jpg');
@@ -22,7 +28,11 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('toJam20Years', 'assets/menu/ToJam20Years.png');
         this.load.image('steamTrain', 'assets/menu/SteamTrain.png');
         this.load.image('goat', 'assets/menu/Button_GOAT.png');
+        this.load.image('goat_hover', 'assets/menu/Button_GOAT_Hover.png');
+        this.load.image('goat_click', 'assets/menu/Button_GOAT_Click.png');
         this.load.image('tojam', 'assets/menu/Button_ToJam.png');
+        this.load.image('tojam_hover', 'assets/menu/Button_ToJam_Hover.png');
+        this.load.image('tojam_click', 'assets/menu/Button_ToJam_Click.png');
         this.load.image('credits', 'assets/menu/credits.png');
         this.load.image('rulesWindow', 'assets/menu/rulesScreen.png');
 
@@ -30,6 +40,13 @@ export default class MainMenu extends Phaser.Scene {
         this.load.audio('2', ['assets/syllables/WAH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
         this.load.audio('3', ['assets/syllables/UHUH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
         this.load.audio('4', ['assets/syllables/KATTA_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
+    }
+
+    setupButtonEvents(button, normalKey, hoverKey, clickKey) {
+        button.on('pointerover', () => { button.setTexture(hoverKey); });
+        button.on('pointerout', () => { button.setTexture(normalKey); });
+        button.on('pointerdown', () => { button.setTexture(clickKey); });
+        button.on('pointerup', () => { button.setTexture(hoverKey); });
     }
 
     create() {
@@ -49,6 +66,7 @@ export default class MainMenu extends Phaser.Scene {
 
         var newGameButton = this.add.image(384, 288, 'new');
         newGameButton.setInteractive(); /* makes button clickable */
+        this.setupButtonEvents(newGameButton, 'new', 'new_hover', 'new_click');
         newGameButton.on('clicked', function (item) {
             this.scene.start('Level'); /* actually starts battle */
         }, this);
@@ -56,6 +74,7 @@ export default class MainMenu extends Phaser.Scene {
 
         var aboutButton = this.add.image(96, 456, 'about'); /* adds button to lower left */
         aboutButton.setInteractive();
+        this.setupButtonEvents(aboutButton, 'about', 'about_hover', 'about_click');
         aboutButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
@@ -67,6 +86,7 @@ export default class MainMenu extends Phaser.Scene {
 
         var jamButton = this.add.image(672, 456, 'tojam'); // adds button to lower right. 
         jamButton.setInteractive();
+        this.setupButtonEvents(jamButton, 'tojam', 'tojam_hover', 'tojam_click');
         jamButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
@@ -91,6 +111,7 @@ export default class MainMenu extends Phaser.Scene {
 
         var rulesButton = this.add.image(672, 104, 'rules'); /* adds button to upper right */
         rulesButton.setInteractive();
+        this.setupButtonEvents(rulesButton, 'rules', 'rules_hover', 'rules_click');
         rulesButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
@@ -102,6 +123,7 @@ export default class MainMenu extends Phaser.Scene {
 
         var goatButton = this.add.image(96, 104, 'goat'); /* adds button to upper right */
         goatButton.setInteractive();
+        this.setupButtonEvents(goatButton, 'goat', 'goat_hover', 'goat_click');
         goatButton.on('clicked', function (item) {
             this.hideNormalButtons();
 
