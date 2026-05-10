@@ -14,6 +14,13 @@ export default class Hud extends Phaser.Scene {
         this.addFancyText(500, 5);   // [3] guard status
         this.hudText[2].text = 'Get the payroll';
         this.hudText[3].text = 'Guards: idle';
+        
+        this.winText = this.add.text(384, 250, '', { font: '40px Arial Black', fill: '#ffd700', align: 'center' }).setOrigin(0.5);
+        this.winText.setStroke('#000', 8);
+        this.winText.setShadow(3, 3, '#000', 3, true, true);
+        this.winText.setDepth(100);
+
+        this.registry.set('moneybagsCollected', 0);
     }
 
     addFancyText(x, y) {
@@ -35,6 +42,16 @@ export default class Hud extends Phaser.Scene {
         }
         if (npcHealth !== undefined) {
             this.hudText[1].text = '' + npcHealth + '/' + npcMaxHealth;
+        }
+
+        const collected = this.registry.get('moneybagsCollected');
+        const gameState = this.registry.get('gameState');
+
+        if (gameState === 'lost' && this.winText.text === '') {
+            this.winText.text = 'GAME OVER\nYou fell off the train!';
+            this.winText.setFill('#ff0000');
+        } else if (collected >= 4 && this.winText.text === '') {
+            this.winText.text = 'YOU WON!\nYou Robbed the Train!';
         }
     }
 }

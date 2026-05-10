@@ -60,6 +60,14 @@ export default class Player extends Actor {
         this.sprite.flipX = false;
     }
 
+    die() {
+        if (this.isDead) return;
+        this.isDead = true;
+        this.sprite.play('chardie', true);
+        this.sprite.setVelocityX(0);
+        this.scene.registry.set('gameState', 'lost');
+    }
+
     jump() {
         console.log('jump');
         this.sprite.play('charjump', true);
@@ -76,14 +84,19 @@ export default class Player extends Actor {
 
     die() {
         this.sprite.play('chardie');
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });
+        this.sprite.setVelocityX(0);
+        this.sprite.setVelocityY(0);
     }
-
     update() {
+        if (this.isDead) {
+            this.sprite.setVelocityX(0);
+            return;
+        }
+
+        if (this.sprite.body.bottom >= 439) {
+            this.die();
+            return;
+        }
 
         // Reset hitbox to normal size (ducking will halve it again if needed)
         this.sprite.setSize(10, 16);
@@ -175,6 +188,9 @@ export default class Player extends Actor {
             if (activeCollectible && !activeCollectible.collected) {
                 activeCollectible.collect();
                 console.log('Collected moneybag!');
+
+                let collected = this.scene.registry.get('moneybagsCollected') || 0;
+                this.scene.registry.set('moneybagsCollected', collected + 1);
             } else if (isAtInteractZone) {
                 console.log('interact');
             }
