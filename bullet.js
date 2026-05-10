@@ -19,8 +19,8 @@ export default class Bullet extends Actor {
             this.scene.anims.create({
                 key: 'bullet_anim',
                 frames: this.scene.anims.generateFrameNumbers(this.sprite, { start: 0, end: 4 }),
-                frameRate: 2, // Play slowly
-                repeat: 0 // Loop indefinitely
+                frameRate: 15, // Play quickly
+                repeat: 0 // Play once
             });
         }
 
@@ -29,27 +29,36 @@ export default class Bullet extends Actor {
         let spawnY = this.scene.player ? this.scene.player.sprite.y : this.y;
         let isFacingLeft = this.scene.player ? this.scene.player.sprite.flipX : false;
 
-        this.currentBulletSprite = this.scene.physics.add.sprite(spawnX, spawnY - 27, this.sprite).setOrigin(0, 0).setSize(3, 2).setOffset(0, 8);
+        this.currentBulletSprite = this.scene.physics.add.sprite(spawnX, spawnY - 27, this.sprite).setOrigin(0, 0).setSize(3, 2).setOffset(16, 8);
         this.currentBulletSprite.setScale(3);
 
         this.currentBulletSprite.play('bullet_anim');
 
         // Disable gravity for the bullet so it doesn't fall
         this.currentBulletSprite.body.setAllowGravity(false);
+        this.currentBulletSprite.setVelocityX(0);
 
-        // Set velocity based on direction
         if (isFacingLeft) {
-            this.currentBulletSprite.setVelocityX(-200);
             this.currentBulletSprite.flipX = true; // Optional: flip the bullet sprite
-        } else {
-            this.currentBulletSprite.setVelocityX(200);
         }
 
-        // Make it disappear after 2 seconds
-        let bulletToDestroy = this.currentBulletSprite;
-        this.scene.time.delayedCall(2000, () => {
-            if (bulletToDestroy && bulletToDestroy.active) {
-                bulletToDestroy.destroy();
+        // Wait for animation to finish before moving
+        this.currentBulletSprite.once('animationcomplete-bullet_anim', () => {
+            if (this.currentBulletSprite && this.currentBulletSprite.active) {
+                // Set velocity based on direction
+                if (isFacingLeft) {
+                    this.currentBulletSprite.setVelocityX(-200);
+                } else {
+                    this.currentBulletSprite.setVelocityX(200);
+                }
+
+                // Make it disappear after 2 seconds
+                let bulletToDestroy = this.currentBulletSprite;
+                this.scene.time.delayedCall(2000, () => {
+                    if (bulletToDestroy && bulletToDestroy.active) {
+                        bulletToDestroy.destroy();
+                    }
+                });
             }
         });
     }
