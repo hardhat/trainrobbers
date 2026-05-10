@@ -4,7 +4,7 @@ Battle against train robbers before you get to the station.
 
 To test it, start python in the main directory:
 
-`python3 -m http.server 8080`
+`python -m http.server 8080`
 
 Then visit http://localhost:8080/
 
@@ -21,3 +21,6 @@ Plan: You are in a gang who plan to rob the train. Your mission is to get the pa
 
 If all of the guards die, at that point in the game, an option pops up whether you want to funnel your "Uncooperative (TOJam 26 theme)" side, and switch side to take out the bandits, in the role as a guard.
 
+Credits
+
+gunshot synthetically created by dklon https://opengameart.org/content/gunshots-0
