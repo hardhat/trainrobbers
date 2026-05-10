@@ -121,6 +121,7 @@ export default class Level extends Phaser.Scene {
 
         this.platforms = this.physics.add.staticGroup();
         this.ladders = this.physics.add.staticGroup();
+        this.interactZones = this.physics.add.staticGroup();
 
         var x = 200;
         var y = 400;

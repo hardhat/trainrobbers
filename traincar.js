@@ -15,6 +15,7 @@ export default class TrainCar extends Actor {
     create() {
         this.createCollisionPlatforms();
         this.createLadders();
+        this.createInteractZones();
     }
 
     createCollisionPlatforms() {
@@ -55,5 +56,20 @@ export default class TrainCar extends Actor {
         this.scene.ladders.add(ladder);
     }
 
+    createInteractZones() {
+        const interactZoneWidth = 6;
+        const interactZoneHeight = 20;
+
+        this.createInteractZone(this.x + 30, this.y + 50, interactZoneWidth, interactZoneHeight);
+        this.createInteractZone(this.x + 528, this.y + 50, interactZoneWidth, interactZoneHeight);
+
+    }
+
+    createInteractZone(x, y, w, h) {
+        console.log('interact zone width: ' + w);
+        console.log('interact zone height: ' + h);
+        let interactZone = this.scene.interactZones.create(x, y, 'char').setSize(w, h).setOrigin(0, 0).setVisible(true).setAlpha(1);
+        this.scene.interactZones.add(interactZone);
+    }
 
 };
