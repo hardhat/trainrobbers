@@ -14,7 +14,10 @@ export default class Level extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('sky', 'assets/sprites/sky.png');
+        this.load.image('sky', 'assets/isolated bg assets/blank_bg.png');
+        this.load.image('track', 'assets/isolated bg assets/train-track-seamless-crop.png');
+        this.load.image('mountain', 'assets/isolated bg assets/Mountain_Range.png');
+        this.load.image('cactus', 'assets/isolated bg assets/cactus.png');
 
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
@@ -104,7 +107,11 @@ export default class Level extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, 'sky').setOrigin(0, 0);
+        // Sky and mountain are already large native pixels — no tile scaling needed.
+        // Track source is 256x2, so scale it up to be visible.
+        this.sky = this.add.tileSprite(0, 0, 768, 576, 'sky').setOrigin(0, 0);
+        this.mountain = this.add.tileSprite(0,124, 768, 101, 'mountain').setOrigin(0, 0);
+        this.track = this.add.tileSprite(0, 430, 768, 6, 'track').setOrigin(0, 0).setTileScale(3, 3);
 
         this.firstClassSprite = this.add.image(0, 320, 'passengercar').setOrigin(0, 0);
         this.firstClassSprite.setScale(3);
@@ -189,6 +196,10 @@ export default class Level extends Phaser.Scene {
         this.player.update();
         // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
         this.hud.update();
+        // Need to scroll the sky image.
+        this.sky.tilePositionX += 3;
+        this.track.tilePositionX += 3;
+        this.mountain.tilePositionX += 1;
     }
 
 }
