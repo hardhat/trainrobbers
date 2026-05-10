@@ -115,6 +115,7 @@ export default class Level extends Phaser.Scene {
         this.playerSprite.flipX = false;
 
         this.platforms = this.physics.add.staticGroup();
+        this.ladders = this.physics.add.staticGroup();
 
         var x = 200;
         var y = 400;

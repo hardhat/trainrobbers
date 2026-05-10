@@ -53,12 +53,6 @@ export default class Player extends Actor {
         console.log('climb');
         this.sprite.play('charclimb');
         this.sprite.flipX = false;
-        this.scene.manFight[(this.nextSfx++) % 5].play();
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });
     }
 
     jump() {
@@ -83,17 +77,43 @@ export default class Player extends Actor {
     }
 
     update() {
+
+        const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders);
+
+        if (isAtLadder) {
+            this.sprite.body.setAllowGravity(false);
+            console.log('yay ladder');
+        } else {
+            this.sprite.body.setAllowGravity(true);
+        }
+
         if (this.cursors.left.isDown) {
             this.walkLeft();
         } else if (this.cursors.right.isDown) {
             this.walkRight();
         } else if (this.cursors.down.isDown) {
-            this.duck();
-        } else if (this.cursors.up.isDown && this.sprite.body.onFloor()) {
-            this.jump();
+            if (isAtLadder) {
+                this.climb();
+                this.sprite.setVelocityY(100);
+            } else {
+                this.duck();
+            }
+        } else if (this.cursors.up.isDown) {
+            if (isAtLadder) {
+                this.climb();
+                this.sprite.setVelocityY(-100);
+            } else if (this.sprite.body.onFloor()) {
+                this.jump();
+            }
         } else {
             this.sprite.setVelocityX(0);
+
+            if (isAtLadder) {
+                this.sprite.setVelocityY(0);
+            }
+
             this.sprite.play('charidle', true);
+
         }
     }
 

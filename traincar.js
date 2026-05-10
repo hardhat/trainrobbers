@@ -14,6 +14,7 @@ export default class TrainCar extends Actor {
 
     create() {
         this.createCollisionPlatforms();
+        this.createLadders();
     }
 
     createCollisionPlatforms() {
@@ -33,6 +34,21 @@ export default class TrainCar extends Actor {
         let rect = this.scene.platforms.create(x1, y1, null).setSize(width, 1).setOrigin(0, 0).setVisible(false).setAlpha(0);
         this.scene.platforms.add(rect);
 
+    }
+
+    createLadders() {
+        const ladderWidth = 18;
+        const ladderHeight = 75;
+
+        this.createLadderZone(this.x + 292, this.y + 52, ladderWidth, ladderHeight);
+
+        this.createLadderZone(this.x + 600, this.y + 52, ladderWidth, ladderHeight);
+
+    }
+
+    createLadderZone(x, y, w, h) {
+        let ladder = this.scene.ladders.create(x, y, null).setSize(w, h).setOrigin(0, 0).setVisible(false).setAlpha(0);
+        this.scene.ladders.add(ladder);
     }
 
 
