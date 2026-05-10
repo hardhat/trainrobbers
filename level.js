@@ -4,7 +4,6 @@ import Player from './player.js'
 import Npc from './npc.js'
 import TrainCar from './traincar.js'
 import Bullet from './bullet.js'
-import Hud from './hud.js'
 
 // Shows level background.  Stretch goal: scroll side to side
 
@@ -152,7 +151,6 @@ export default class Level extends Phaser.Scene {
         this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
-        this.hud = new Hud({ scene: this, player: this.player, npc: this.npc });
 
         /*if (this.npc.alive) {
             this.createAnim('candy');
@@ -162,6 +160,9 @@ export default class Level extends Phaser.Scene {
         }*/
 
         this.cameras.main.startFollow(this.playerSprite, true);
+
+        // Launch the HUD as a parallel scene that has its own static camera.
+        this.scene.launch('Hud');
 
         this.createSounds();
         this.player.create();
@@ -211,8 +212,11 @@ export default class Level extends Phaser.Scene {
         this.player.update();
         if (this.traincar) this.traincar.update();
         if (this.traincar2) this.traincar2.update();
-        // Use actor for the animated figures.  Each player or npc has an actor.  This updates the player + npc.
-        this.hud.update();
+        // Push health data to the HUD scene via the shared registry.
+        this.registry.set('playerHealth',    this.player.health);
+        this.registry.set('playerMaxHealth', this.player.maxHealth);
+        this.registry.set('npcHealth',       this.npc.health);
+        this.registry.set('npcMaxHealth',    this.npc.maxHealth);
         // Constant auto-scroll: train is always moving.
         this.bgScrollX = (this.bgScrollX || 0) + 2;
         this.sky.tilePositionX = this.bgScrollX * 0.1;

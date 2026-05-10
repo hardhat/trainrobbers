@@ -2,6 +2,7 @@
 //import Phaser from './dist/phaser-arcade-physics.min.js'
 import MainMenu from './mainmenu.js'
 import Level from './level.js'
+import Hud from './hud.js'
 
 const config = {
 	type: Phaser.AUTO,
@@ -19,7 +20,7 @@ const config = {
 			//debug: true
 		}
 	},
-	scene: [MainMenu, Level]
+	scene: [MainMenu, Level, Hud]
 }
 
 const game = new Phaser.Game(config);
