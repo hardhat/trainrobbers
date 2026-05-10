@@ -1,5 +1,6 @@
 // Train car.
 import Actor from './actor.js'
+import Collectible from './collectible.js'
 // Listens for rhythm based commands and updates Actor class
 
 export default class TrainCar extends Actor {
@@ -29,6 +30,12 @@ export default class TrainCar extends Actor {
         this.createCollisionPlatforms();
         this.createLadders();
         this.createInteractZones();
+
+        this.collectible1 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 300, y: this.y + 70, value: 100 });
+        this.collectible1.create();
+
+        this.collectible2 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 650, y: this.y + 70, value: 100 });
+        this.collectible2.create();
     }
 
     createCollisionPlatforms() {
@@ -120,6 +127,13 @@ export default class TrainCar extends Actor {
 
         // Toggle interior collision zone
         if (this.interiorFloor) this.interiorFloor.body.enable = isInside;
+
+        if (this.collectible1) {
+            this.collectible1.update(targetAlpha);
+        }
+        if (this.collectible2) {
+            this.collectible2.update(targetAlpha);
+        }
     }
 
 };
