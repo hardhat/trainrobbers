@@ -28,6 +28,11 @@ export default class Player extends Actor {
         this.eKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.isMoving = false;
 
+        this.interactPrompt = this.scene.add.image(0, 0, 'interactPrompt');
+        this.interactPrompt.setOrigin(0.5, 1);
+        this.interactPrompt.setScale(3);
+        this.interactPrompt.setVisible(false);
+        this.interactPrompt.setDepth(300);
     }
 
     walkLeft() {
@@ -114,6 +119,13 @@ export default class Player extends Actor {
             this.scene.physics.overlap(this.sprite, this.scene.collectibleZones, (player, zone) => {
                 activeCollectible = zone.collectible;
             });
+        }
+
+        if (activeCollectible && !activeCollectible.collected) {
+            this.interactPrompt.setVisible(true);
+            this.interactPrompt.setPosition(this.sprite.x, this.sprite.y - 35);
+        } else {
+            this.interactPrompt.setVisible(false);
         }
 
         if (!isAtLadder) {
