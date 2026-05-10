@@ -5,9 +5,13 @@ import Level from './level.js'
 
 const config = {
 	type: Phaser.AUTO,
-	pixelArt: true,
+	//pixelArt: true,
 	width: 768,
 	height: 576,
+	render: {
+		pixelArt: true, // no blur on sprites
+		// roundPixels: true // no blur on geometry (recommended for 2D)
+	},
 	physics: {
 		default: 'arcade',
 		arcade: {
