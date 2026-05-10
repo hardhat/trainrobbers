@@ -22,6 +22,9 @@ export default class Level extends Phaser.Scene {
         this.load.image('healthbar', 'assets/hud/healthbar.png');
         this.load.image('hudBg', 'assets/hud/hud-bg.png');
 
+        // Load the theme
+        this.levelMusic = this.load.audio('levelmusic', 'assets/music/main_theme.mp3');
+
         this.load.audio('1', ['assets/syllables/DO_woman.wav', 'assets/syllables/DO_woman.mp3', 'assets/syllables/DO_woman.ogg']);
         this.load.audio('2', ['assets/syllables/WAH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
         this.load.audio('3', ['assets/syllables/UHUH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
@@ -137,11 +140,15 @@ export default class Level extends Phaser.Scene {
         this.createSounds();
         this.traincar.create();
         this.player.create();
-        this.hud.create();
         //this.npc.create();
     }
 
     createSounds() {
+        // Play the main theme looping
+        this.levelMusic = this.sound.add('levelmusic', { loop: true });
+        this.levelMusic.play();
+
+
         this.syllable1 = this.sound.add('1');
         this.syllable2 = this.sound.add('2');
         this.syllable3 = this.sound.add('3');

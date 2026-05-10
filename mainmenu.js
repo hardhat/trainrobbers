@@ -36,6 +36,9 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('credits', 'assets/menu/credits.png');
         this.load.image('rulesWindow', 'assets/menu/rulesScreen.png');
 
+        // load the menu music
+        this.load.audio('menumusic',['assets/music/neon_west.mp3','assets/music/neon_west.wav']);
+
         this.load.audio('1', ['assets/syllables/DO_woman.wav', 'assets/syllables/DO_woman.mp3', 'assets/syllables/DO_woman.ogg']);
         this.load.audio('2', ['assets/syllables/WAH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
         this.load.audio('3', ['assets/syllables/UHUH_woman.wav', 'assets/syllables/WAH_woman.mp3', 'assets/syllables/WAH_woman.ogg']);
@@ -68,7 +71,12 @@ export default class MainMenu extends Phaser.Scene {
         newGameButton.setInteractive(); /* makes button clickable */
         this.setupButtonEvents(newGameButton, 'new', 'new_hover', 'new_click');
         newGameButton.on('clicked', function (item) {
-            this.scene.start('Level'); /* actually starts battle */
+            this.tweens.add({
+                targets: this.menuMusic,
+                volume: 0,
+                duration: 500,
+                onComplete: () => { this.scene.start('Level'); }
+            });
         }, this);
         this.normalButtonList.push(newGameButton); /* puts button in list of buttons */
 
@@ -139,7 +147,18 @@ export default class MainMenu extends Phaser.Scene {
             gameObject.emit('clicked', gameObject);
         }, this);
 
-        this.createSounds();
+        // Show a big start button, to trigger the menu music in the browser
+        var startOverlay = this.add.rectangle(384, 288, 768, 576, 0x000000, 0.75).setDepth(10);
+        var startText = this.add.text(384, 288, 'START', {
+            font: 'bold 72px Arial Black',
+            fill: '#ffffff'
+        }).setOrigin(0.5).setDepth(11);
+        startOverlay.setInteractive();
+        startOverlay.on('pointerup', () => {
+            startOverlay.destroy();
+            startText.destroy();
+            this.createSounds();
+        });
     }
 
     hideNormalButtons() { /* hides and deactivates normal buttons */
@@ -166,6 +185,9 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     createSounds() {
+        this.menuMusic = this.sound.add('menumusic', { loop: true });
+        this.menuMusic.play();
+
         this.syllable1 = this.sound.add('1');
         this.syllable2 = this.sound.add('2');
         this.syllable3 = this.sound.add('3');
@@ -200,11 +222,6 @@ export default class MainMenu extends Phaser.Scene {
         this.time.addEvent({
             delay: 1000, callback: function () {
                 //this.syllable1.play();
-            }, callbackScope: this, loop: false
-        });
-        this.time.addEvent({
-            delay: 2000, callback: function () {
-                //this.syllable2.play();
             }, callbackScope: this, loop: false
         });
     }
