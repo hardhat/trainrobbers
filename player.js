@@ -25,6 +25,7 @@ export default class Player extends Actor {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
+        this.eKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.isMoving = false;
 
     }
@@ -86,17 +87,25 @@ export default class Player extends Actor {
         this.sprite.setOffset(3, 0);
 
         const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders);
+        const isAtInteractZone = this.scene.physics.overlap(this.sprite, this.scene.interactZones);
+
+        if (isAtInteractZone) {
+
+        }
 
 
         if (isAtLadder) {
             this.sprite.body.setAllowGravity(false);
             this.sprite.body.checkCollision.down = false;
             this.sprite.body.checkCollision.up = false;
-            console.log('yay ladder');
         } else {
             this.sprite.body.setAllowGravity(true);
             this.sprite.body.checkCollision.down = true;
             this.sprite.body.checkCollision.up = true;
+        }
+
+        if (isAtInteractZone) {
+            console.log('yay interact zone');
         }
 
         if (this.cursors.left.isDown || this.wasd.left.isDown) {
@@ -119,7 +128,7 @@ export default class Player extends Actor {
             }
         } else if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
             this.shoot();
-        } else if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
+        } else if (Phaser.Input.Keyboard.JustDown(this.cursors.shift) || Phaser.Input.Keyboard.JustDown(this.eKey)) {
             console.log('interact');
         } else {
             this.sprite.setVelocityX(0);
