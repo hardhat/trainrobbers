@@ -20,6 +20,11 @@ export default class Hud extends Phaser.Scene {
         this.winText.setShadow(3, 3, '#000', 3, true, true);
         this.winText.setDepth(100);
 
+        this.progressText = this.add.text(384, 500, '', { font: '40px Arial Black', fill: '#ffffff', align: 'center' }).setOrigin(0.5);
+        this.progressText.setStroke('#000', 8);
+        this.progressText.setShadow(3, 3, '#000', 3, true, true);
+        this.progressText.setDepth(100);
+
         this.restartButton = this.add.text(384, 330, 'RESTART', { 
             font: '30px Arial Black', 
             fill: '#ffffff',
@@ -75,9 +80,18 @@ export default class Hud extends Phaser.Scene {
             this.winText.text = 'GAME OVER\nYou fell off the train!';
             this.winText.setFill('#ff0000');
             this.restartButton.setVisible(true);
+            this.progressText.setVisible(false);
         } else if (collected >= 4 && this.winText.text === '') {
             this.winText.text = 'YOU WON!\nYou Robbed the Train!';
             this.restartButton.setVisible(true);
+            this.progressText.setVisible(false);
+        } else if (this.winText.text === '') {
+            if (collected > 0) {
+                this.progressText.text = `${collected}/4 Money Bags collected`;
+                this.progressText.setVisible(true);
+            } else {
+                this.progressText.setVisible(false);
+            }
         }
     }
 }
