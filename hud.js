@@ -7,6 +7,7 @@ export default class Hud extends Phaser.Scene {
     }
 
     create() {
+        this.level = this.scene.get('Level');
         this.hudText = [];
         this.addFancyText(150, 30);  // [0] player health
         this.addFancyText(500, 30);  // [1] npc health
@@ -14,20 +15,21 @@ export default class Hud extends Phaser.Scene {
         this.addFancyText(500, 5);   // [3] guard status
         this.hudText[2].text = 'Get the payroll';
         this.hudText[3].text = 'Guards: idle';
-        
+
         this.winText = this.add.text(384, 250, '', { font: '40px Arial Black', fill: '#ffd700', align: 'center' }).setOrigin(0.5);
         this.winText.setStroke('#000', 8);
         this.winText.setShadow(3, 3, '#000', 3, true, true);
         this.winText.setDepth(100);
 
-        this.restartButton = this.add.text(384, 330, 'RESTART', { 
-            font: '30px Arial Black', 
+        this.restartButton = this.add.text(384, 330, 'RESTART', {
+            font: '30px Arial Black',
             fill: '#ffffff',
             backgroundColor: '#000000',
             padding: { x: 20, y: 10 }
         }).setOrigin(0.5).setInteractive();
-        
+        console.log('hud music', this.level.levelMusic);
         this.restartButton.on('pointerdown', () => {
+            this.level.levelMusic.stop();
             this.scene.stop();
             this.scene.get('Level').scene.restart();
         });
@@ -39,7 +41,7 @@ export default class Hud extends Phaser.Scene {
         this.restartButton.on('pointerout', () => {
             this.restartButton.setStyle({ fill: '#ffffff' });
         });
-        
+
         this.restartButton.setVisible(false);
         this.restartButton.setDepth(100);
 
@@ -56,10 +58,10 @@ export default class Hud extends Phaser.Scene {
     }
 
     update() {
-        const playerHealth    = this.registry.get('playerHealth');
+        const playerHealth = this.registry.get('playerHealth');
         const playerMaxHealth = this.registry.get('playerMaxHealth');
-        const npcHealth       = this.registry.get('npcHealth');
-        const npcMaxHealth    = this.registry.get('npcMaxHealth');
+        const npcHealth = this.registry.get('npcHealth');
+        const npcMaxHealth = this.registry.get('npcMaxHealth');
 
         if (playerHealth !== undefined) {
             this.hudText[0].text = '❤️ ' + playerHealth + '/' + playerMaxHealth;

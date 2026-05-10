@@ -44,12 +44,11 @@ export default class TrainCar extends Actor {
         const roofWidth = 156 * 3;
         const roofheight = 1;
 
-        this.extPlatform1 = this.createCollisionRectangle(this.x + 30, this.y + 80, 50, floorHeight);
+        this.extPlatform1 = this.createCollisionRectangle(this.x + 30, this.y + 80, 70, floorHeight);
         this.mainFloor = this.createCollisionRectangle(this.x, this.y + 120, 10000, floorHeight);
-        this.extPlatform2 = this.createCollisionRectangle(this.x + floorWidth + 90, this.y + 80, 40, floorHeight);
+        this.extPlatform2 = this.createCollisionRectangle(this.x + floorWidth + 90, this.y + 80, 70, floorHeight);
         this.roofPlatform = this.createCollisionRectangle(this.x + 278, this.y, roofWidth, roofheight);
         this.interiorFloor = this.createCollisionRectangle(this.x + 275, this.y + 80, 440, floorHeight);
-        console.log('x = ' + this.x + (floorWidth / 2));
     }
 
     createCollisionRectangle(x1, y1, width, height) {
@@ -60,13 +59,13 @@ export default class TrainCar extends Actor {
 
     createLadders() {
         const ladderWidth = 9;
-        const ladderHeight = 82;
+        const ladderHeight = 50;
         console.log('ladder width: ' + ladderWidth);
         console.log('ladder height: ' + ladderHeight);
 
-        this.createLadderZone(this.x + 50, this.y + 40, ladderWidth, ladderHeight);
+        this.createLadderZone(this.x + 50, this.y + 20, ladderWidth, ladderHeight);
 
-        this.createLadderZone(this.x + 508, this.y + 40, ladderWidth, ladderHeight);
+        this.createLadderZone(this.x + 508, this.y + 20, ladderWidth, ladderHeight);
 
     }
 
@@ -78,7 +77,7 @@ export default class TrainCar extends Actor {
     }
 
     createInteractZones() {
-        const interactZoneWidth = 440;
+        const interactZoneWidth = 420;
         const interactZoneHeight = 75;
 
         this.createInteractZone(this.x + 275, this.y + 40, interactZoneWidth, interactZoneHeight);

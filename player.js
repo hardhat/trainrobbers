@@ -138,7 +138,7 @@ export default class Player extends Actor {
 
             // Snap player to be inline with the ladder
             if (activeLadder) {
-                let ladderCenter = activeLadder.x + (activeLadder.width / 2);
+                let ladderCenter = activeLadder.x + (activeLadder.width - 34);
                 let diff = ladderCenter - this.sprite.x;
                 if (Math.abs(diff) > 0.5) {
                     this.sprite.x += diff * 0.2;
@@ -152,6 +152,9 @@ export default class Player extends Actor {
                     this.scene.physics.overlap(this.sprite, this.scene.platforms, (player, platform) => {
                         let ladderBottom = activeLadder.y + activeLadder.displayHeight;
                         // Only snap if the platform is near the bottom of the ladder
+                        console.log('ladderBottom', ladderBottom);
+                        console.log('platform.y', platform.y);
+                        console.log('player.body.bottom', player.body.bottom);
                         if (Math.abs(platform.y - ladderBottom) < 30 && player.body.bottom >= platform.y - 2) {
                             isTouchingBottomPlatform = true;
                         }

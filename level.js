@@ -164,7 +164,7 @@ export default class Level extends Phaser.Scene {
         this.cameras.main.startFollow(this.playerSprite, true);
 
         // Launch the HUD as a parallel scene that has its own static camera.
-        this.scene.launch('Hud');
+        this.hud = this.scene.launch('Hud');
 
         this.createSounds();
         this.player.create();
@@ -215,10 +215,10 @@ export default class Level extends Phaser.Scene {
         if (this.traincar) this.traincar.update();
         if (this.traincar2) this.traincar2.update();
         // Push health data to the HUD scene via the shared registry.
-        this.registry.set('playerHealth',    this.player.health);
+        this.registry.set('playerHealth', this.player.health);
         this.registry.set('playerMaxHealth', this.player.maxHealth);
-        this.registry.set('npcHealth',       this.npc.health);
-        this.registry.set('npcMaxHealth',    this.npc.maxHealth);
+        this.registry.set('npcHealth', this.npc.health);
+        this.registry.set('npcMaxHealth', this.npc.maxHealth);
         // Constant auto-scroll: train is always moving.
         this.bgScrollX = (this.bgScrollX || 0) + 2;
         this.sky.tilePositionX = this.bgScrollX * 0.1;
