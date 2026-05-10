@@ -21,7 +21,6 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image('new_hover', 'assets/menu/Button_New_Hover.png');
         this.load.image('new_click', 'assets/menu/Button_New_Click.png');
         this.load.image('history', 'assets/menu/Button_History.png');
-        this.load.image('dog', 'assets/menu/dog.png');
         this.load.image('polegoat', 'assets/menu/goatonapole.jpg');
         this.load.image('back', 'assets/menu/Button_Back.png');
         this.load.spritesheet('jamWindow', 'assets/menu/Bg_Desert_Sheet.png', { frameWidth: 256, frameHeight: 244 });
@@ -149,7 +148,7 @@ export default class MainMenu extends Phaser.Scene {
 
         // Show a big start button, to trigger the menu music in the browser
         var startOverlay = this.add.rectangle(384, 288, 768, 576, 0x000000, 0.75).setDepth(10);
-        var startText = this.add.text(384, 288, 'START', {
+        var startText = this.add.text(384, 288, 'Click to START', {
             font: 'bold 72px Arial Black',
             fill: '#ffffff'
         }).setOrigin(0.5).setDepth(11);

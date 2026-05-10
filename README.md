@@ -22,5 +22,12 @@ Plan: You are in a gang who plan to rob the train. Your mission is to get the pa
 If all of the guards die, at that point in the game, an option pops up whether you want to funnel your "Uncooperative (TOJam 26 theme)" side, and switch side to take out the bandits, in the role as a guard.
 
 Credits
-
+Dale Wick - programmer
+Jeffrey Wick - programmer
+Joseph McCabe - programmer
+Josh Finnigan - music and art
+Rahul K - art
+JoJo Worthington - music
+Christine Laskowski - sound effects
+Sakib C - art
 gunshot synthetically created by dklon https://opengameart.org/content/gunshots-0
