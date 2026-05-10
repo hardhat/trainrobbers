@@ -45,10 +45,13 @@ export default class Player extends Actor {
     }
 
     shoot() {
+        if (this.scene.bullet && this.scene.bullet.currentBulletSprite && this.scene.bullet.currentBulletSprite.active) {
+            return;
+        }
         console.log('shoot');
         this.sprite.play('charshoot', true);
         this.sprite.flipX = false;
-        this.scene.bullet.create();
+        this.hasFiredThisAnimation = false;
     }
 
     climb() {
@@ -174,6 +177,10 @@ export default class Player extends Actor {
 
             if (this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key === 'charshoot') {
                 // Let the shoot animation finish
+                if (this.sprite.anims.currentFrame && this.sprite.anims.currentFrame.isLast && !this.hasFiredThisAnimation) {
+                    this.scene.bullet.create();
+                    this.hasFiredThisAnimation = true;
+                }
             } else {
                 this.sprite.play('charidle', true);
             }
