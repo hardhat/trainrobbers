@@ -3,6 +3,7 @@
 import Player from './player.js'
 import Npc from './npc.js'
 import TrainCar from './traincar.js'
+import Bullet from './bullet.js'
 import Hud from './hud.js'
 
 // Shows level background.  Stretch goal: scroll side to side
@@ -18,6 +19,7 @@ export default class Level extends Phaser.Scene {
         this.char = this.load.spritesheet('char', 'assets/sprites/char.png', { frameWidth: 16, frameHeight: 16 });
         this.candy = this.load.spritesheet('candy', 'assets/sprites/woman.png', { frameWidth: 48, frameHeight: 48 });
         this.passenger = this.load.image('passengercar', 'assets/trains/passengercar.png');
+        this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
         this.load.image('hudBg', 'assets/hud/hud-bg.png');
@@ -66,7 +68,7 @@ export default class Level extends Phaser.Scene {
             key: name + 'shoot',
             frames: this.anims.generateFrameNumbers(name, { frames: [6, 7, 8, 9, 10, 11, 12, 13, 14] }),
             frameRate: 8,
-            repeat: -1,
+            repeat: 0,
             //repeatDelay: 2000
         });
 
@@ -127,6 +129,7 @@ export default class Level extends Phaser.Scene {
         this.traincar = new TrainCar({ scene: this, sprite: this.firstClassSprite, x: 0, y: 320, health: health });
         this.traincar2 = new TrainCar({ scene: this, sprite: this.thirdClassSprite, x: 549, y: 320, health: health });
         this.player = new Player({ scene: this, sprite: this.playerSprite, x: x, y: y, health: health });
+        this.bullet = new Bullet({ scene: this, sprite: 'bullet', x: 200, y: 200 });
         x = 600;
         this.npc = new Npc({ scene: this, sprite: this.npcSprite, x: x, y: y, health: health });
         this.hud = new Hud({ scene: this, player: this.player, npc: this.npc });

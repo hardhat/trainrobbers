@@ -19,6 +19,12 @@ export default class Player extends Actor {
         this.nextSfx = 0;
         this.scene.physics.add.collider(this.sprite, this.scene.platforms);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
+        this.wasd = this.scene.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            down: Phaser.Input.Keyboard.KeyCodes.S,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D
+        });
         this.isMoving = false;
 
     }
@@ -39,19 +45,14 @@ export default class Player extends Actor {
 
     shoot() {
         console.log('shoot');
-        this.sprite.play('charshoot');
+        this.sprite.play('charshoot', true);
         this.sprite.flipX = false;
-        this.scene.manFight[(this.nextSfx++) % 5].play();
-        this.scene.time.addEvent({
-            delay: 1000, callback: function () {
-                this.sprite.play('charidle');
-            }, callbackScope: this, loop: false
-        });
+        this.scene.bullet.create();
     }
 
     climb() {
         console.log('climb');
-        this.sprite.play('charclimb');
+        this.sprite.play('charclimb', true);
         this.sprite.flipX = false;
     }
 
@@ -65,6 +66,8 @@ export default class Player extends Actor {
     duck() {
         console.log('duck');
         this.sprite.play('charduck', true);
+        this.sprite.setSize(10, 8);
+        this.sprite.setOffset(3, 8);
     }
 
     die() {
@@ -77,6 +80,10 @@ export default class Player extends Actor {
     }
 
     update() {
+
+        // Reset hitbox to normal size (ducking will halve it again if needed)
+        this.sprite.setSize(10, 16);
+        this.sprite.setOffset(3, 0);
 
         const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders);
 
@@ -92,24 +99,28 @@ export default class Player extends Actor {
             this.sprite.body.checkCollision.up = true;
         }
 
-        if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown || this.wasd.left.isDown) {
             this.walkLeft();
-        } else if (this.cursors.right.isDown) {
+        } else if (this.cursors.right.isDown || this.wasd.right.isDown) {
             this.walkRight();
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.wasd.down.isDown) {
             if (isAtLadder) {
                 this.climb();
                 this.sprite.setVelocityY(100);
             } else {
                 this.duck();
             }
-        } else if (this.cursors.up.isDown) {
+        } else if (this.cursors.up.isDown || this.wasd.up.isDown) {
             if (isAtLadder) {
                 this.climb();
                 this.sprite.setVelocityY(-100);
             } else if (this.sprite.body.onFloor()) {
                 this.jump();
             }
+        } else if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+            this.shoot();
+        } else if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
+            console.log('interact');
         } else {
             this.sprite.setVelocityX(0);
 
@@ -117,7 +128,11 @@ export default class Player extends Actor {
                 this.sprite.setVelocityY(0);
             }
 
-            this.sprite.play('charidle', true);
+            if (this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key === 'charshoot') {
+                // Let the shoot animation finish
+            } else {
+                this.sprite.play('charidle', true);
+            }
 
         }
     }
