@@ -31,11 +31,21 @@ export default class TrainCar extends Actor {
         this.createLadders();
         this.createInteractZones();
 
+        // Interior middle x = x+495, interior floor y = y+80, guard spawns just above floor.
+        const guardX = this.x + 495;
+        const guardY = this.y + 65;
+
         this.collectible1 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 100, y: this.y + 30, value: 100 });
         this.collectible1.create();
+        this.collectible1.onCollect = () => {
+            if (this.scene.spawnGuard) this.scene.spawnGuard(guardX, guardY);
+        };
 
         this.collectible2 = new Collectible({ scene: this.scene, sprite: 'moneybags', x: this.x + 350, y: this.y + 30, value: 100 });
         this.collectible2.create();
+        this.collectible2.onCollect = () => {
+            if (this.scene.spawnGuard) this.scene.spawnGuard(guardX, guardY);
+        };
     }
 
     createCollisionPlatforms() {

@@ -2,6 +2,7 @@
 //import Phaser from 'phaser'
 import Player from './player.js'
 import Npc from './npc.js'
+import Guard from './guard.js'
 import TrainCar from './traincar.js'
 import Bullet from './bullet.js'
 
@@ -28,6 +29,7 @@ export default class Level extends Phaser.Scene {
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
         this.load.image('moneybags', 'assets/sprites/moneybags.png');
         this.load.image('interactPrompt', 'assets/menu/InteractionPromt.png');
+        this.load.spritesheet('npc', 'assets/sprites/npc.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
         this.load.image('hudBg', 'assets/hud/hud-bg.png');
@@ -124,6 +126,7 @@ export default class Level extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, WORLD_WIDTH, 576);
 
         this.createAnim('char');
+        this.createAnim('npc');
         this.playerSprite = this.physics.add.sprite(200, 250).setSize(10, 16).setOffset(3, 0).setDepth(200);
         this.playerSprite.setBounce(0.2);
         this.playerSprite.setCollideWorldBounds(true);
@@ -165,6 +168,8 @@ export default class Level extends Phaser.Scene {
 
         // Launch the HUD as a parallel scene that has its own static camera.
         this.hud = this.scene.launch('Hud');
+
+        this.guards = [];
 
         this.createSounds();
         this.player.create();
@@ -210,10 +215,20 @@ export default class Level extends Phaser.Scene {
         this.manWin = this.sound.add('manwin');
     }
 
+    spawnGuard(x, y) {
+        const guard = new Guard({ scene: this, x, y });
+        guard.create();
+        this.guards.push(guard);
+    }
+
     update() {
         this.player.update();
         if (this.traincar) this.traincar.update();
         if (this.traincar2) this.traincar2.update();
+        // Update all active guards.
+        for (let i = this.guards.length - 1; i >= 0; i--) {
+            this.guards[i].update();
+        }
         // Push health data to the HUD scene via the shared registry.
         this.registry.set('playerHealth', this.player.health);
         this.registry.set('playerMaxHealth', this.player.maxHealth);

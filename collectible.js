@@ -26,6 +26,7 @@ export default class Collectible extends Actor {
         this.collected = true;
         if (this.spriteObj) this.spriteObj.destroy();
         if (this.interactZone) this.interactZone.destroy();
+        if (typeof this.onCollect === 'function') this.onCollect();
     }
 
     update(targetAlpha) {
