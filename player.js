@@ -33,6 +33,8 @@ export default class Player extends Actor {
         this.interactPrompt.setScale(3);
         this.interactPrompt.setVisible(false);
         this.interactPrompt.setDepth(300);
+
+        this.interactPrompt1 = this.scene.add.image(0, 0, 'downArrow').setOrigin(0.5, 1).setScale(3).setVisible(false).setDepth(300);
     }
 
     walkLeft() {
@@ -106,6 +108,8 @@ export default class Player extends Actor {
         let activeLadder = null;
         const isAtLadder = this.scene.physics.overlap(this.sprite, this.scene.ladders, (player, ladder) => {
             activeLadder = ladder;
+            this.interactPrompt1.setVisible(true);
+            this.interactPrompt1.setPosition(this.sprite.x, this.sprite.y - 35);
         });
 
         const isAtInteractZone = this.scene.physics.overlap(this.sprite, this.scene.interactZones);
@@ -126,6 +130,7 @@ export default class Player extends Actor {
 
         if (!isAtLadder) {
             this.isClimbing = false;
+            this.interactPrompt1.setVisible(false);
         } else if (this.cursors.up.isDown || this.wasd.up.isDown || this.cursors.down.isDown || this.wasd.down.isDown) {
             this.isClimbing = true;
         }

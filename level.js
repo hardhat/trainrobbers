@@ -29,6 +29,7 @@ export default class Level extends Phaser.Scene {
         this.bullet = this.load.spritesheet('bullet', 'assets/sprites/BulletFire.png', { frameWidth: 16, frameHeight: 16 });
         this.load.image('moneybags', 'assets/sprites/moneybags.png');
         this.load.image('interactPrompt', 'assets/menu/InteractionPromt.png');
+        this.load.image('downArrow', 'assets/menu/DownArrow.png');
         this.load.spritesheet('npc', 'assets/sprites/npc.png', { frameWidth: 16, frameHeight: 16 });
 
         this.load.image('healthbar', 'assets/hud/healthbar.png');
