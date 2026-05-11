@@ -78,7 +78,12 @@ export default class Hud extends Phaser.Scene {
         const collected = this.registry.get('moneybagsCollected');
         const gameState = this.registry.get('gameState');
 
-        if (gameState === 'lost' && this.winText.text === '') {
+        if (gameState === 'lost' && this.winText.text === '' && playerHealth <= 0) {
+            this.winText.text = 'GAME OVER\nYou were shot repeatedly!';
+            this.winText.setFill('#ff0000');
+            this.restartButton.setVisible(true);
+            this.progressText.setVisible(false);
+        } else if (gameState === 'lost' && this.winText.text === '') {
             this.winText.text = 'GAME OVER\nYou fell off the train!';
             this.winText.setFill('#ff0000');
             this.restartButton.setVisible(true);

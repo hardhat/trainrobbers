@@ -59,8 +59,10 @@ export default class Guard {
     fireGuardBullet(goLeft) {
         if (!this.alive || !this.sprite || !this.sprite.active) return;
 
-        // Spawn bullet at chest height (same offset the player bullet uses).
-        let bulletX = this.sprite.x;
+        // Spawn bullet at chest height. When going left, offset spawn so the bullet
+        // appears on the left side of the guard (origin is top-left, sprite is 16px * scale 3 = 48px wide).
+        const bulletWidth = 16 * 3;
+        let bulletX = goLeft ? this.sprite.x - bulletWidth : this.sprite.x;
         let bulletY = this.sprite.y - 27;
 
         let bullet = this.scene.physics.add.sprite(bulletX, bulletY, 'bullet');
@@ -69,7 +71,7 @@ export default class Guard {
         bullet.setSize(3, 2);
         bullet.setOffset(16, 8);
         bullet.body.setAllowGravity(false);
-        bullet.flipX = goLeft;
+        bullet.flipX = !goLeft;
         bullet.setDepth(200);
         this._bulletHit = false;
 
@@ -87,6 +89,7 @@ export default class Guard {
         bullet.once('animationcomplete-bullet_anim', () => {
             if (!bullet || !bullet.active) return;
             bullet.setVelocityX(goLeft ? -200 : 200);
+            bullet.flipX = goLeft ? true : false;
 
             // Set up overlap with the player sprite.
             this.scene.physics.add.overlap(bullet, this.scene.player.sprite, () => {
@@ -98,6 +101,9 @@ export default class Guard {
                 const isDucking = anim && anim.key === 'charduck';
                 if (!isDucking && !this.scene.player.isDead) {
                     this.scene.player.health = Math.max(0, this.scene.player.health - 10);
+                    if (this.scene.player.health <= 0) {
+                        this.scene.player.die();
+                    }
                 }
                 if (bullet && bullet.active) bullet.destroy();
             });
