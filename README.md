@@ -26,7 +26,7 @@ Dale Wick - programmer
 Jeffrey Wick - programmer
 Joseph McCabe - programmer
 Josh Finnigan - music and art
-Rahul K - art
+Rahul Muthukumaran - art
 JoJo Worthington - music
 Christine Laskowski - sound effects
 Sakib C - art
